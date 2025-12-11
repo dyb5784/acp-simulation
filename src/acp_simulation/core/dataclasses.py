@@ -9,7 +9,7 @@ from enum import Enum
 from .enums import ActionType
 
 
-@dataclass
+@dataclass(frozen=True)
 class Instance:
     """
     Cognitive memory instance for Instance-Based Learning Theory (IBLT).
