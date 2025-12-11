@@ -1,0 +1,127 @@
+# Pre-commit hooks for ACP Simulation
+# Install: pip install pre-commit
+# Setup: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Python code formatting
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+        language_version: python3
+        args: ['--line-length=100']
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--profile', 'black', '--line-length=100']
+
+  # Linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=100', '--extend-ignore=E203,W503']
+
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [numpy, types-requests]
+        args: ['--strict', '--ignore-missing-imports']
+
+  # Basic file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: debug-statements
+
+  # Security checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.8
+    hooks:
+      - id: bandit
+        args: ['-ll', '-c', 'pyproject.toml']
+        files: ^src/
+
+  # Docstring coverage (optional, can be strict)
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.7.0
+    hooks:
+      - id: interrogate
+        args: ['--fail-under=80', '--verbose', 'src/']
+        pass_filenames: false
+
+# Custom local hooks
+  - repo: local
+    hooks:
+      # Reproducibility check
+      - id: reproducibility-check
+        name: Verify reproducibility
+        entry: python scripts/verify_reproducibility.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+      
+      # Ensure pytest passes
+      - id: pytest
+        name: Run pytest
+        entry: pytest
+        args: ['tests/', '-v', '--tb=short']
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+      
+      # Check for print statements (research code should use logging)
+      - id: no-print-statements
+        name: Check for print statements
+        entry: 'grep -rn "^\s*print(" src/'
+        language: system
+        pass_filenames: false
+        stages: [commit]
+        # Only warn, don't fail (some prints are okay for now)
+        verbose: true
+      
+      # Verify all random operations use seeded RNG
+      - id: check-random-seeds
+        name: Check for unseeded random operations
+        entry: bash -c 'grep -rn "np\.random\.\(rand\|randn\|random\|choice\)" src/ | grep -v "default_rng" || exit 0; exit 1'
+        language: system
+        pass_filenames: false
+        stages: [commit]
+
+# Configuration
+default_language_version:
+  python: python3.11
+
+# Run these stages
+default_stages: [commit]
+
+# Files to exclude
+exclude: |
+  (?x)^(
+    \.git/|
+    \.venv/|
+    venv/|
+    __pycache__/|
+    \.pytest_cache/|
+    \.mypy_cache/|
+    outputs/|
+    .*\.egg-info/|
+    build/|
+    dist/
+  )
