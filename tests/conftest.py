@@ -28,7 +28,7 @@ def pytest_addoption(parser):
         "..",
         "external",
         "acts",
-        "acts_3.1.jar"
+        "acts_cli.jar"
     )
     
     parser.addoption(

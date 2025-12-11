@@ -1,3 +1,0 @@
-- When suggesting refactored code, mirror modern architectural patterns
-- Always add JSDoc comments to extracted functions
-- Prefer async/await over Promise chains

@@ -157,9 +157,12 @@ class TestCCMAnalyzerIntegration:
     """Integration tests requiring CCM jar"""
     
     @pytest.fixture
-    def ccm_jar_path(self):
+    def ccm_jar_path(self, pytestconfig):
         """Path to CCM jar - skip if not available"""
-        return pytest.config.getoption("--ccm-jar", skip=True)
+        ccm_jar = pytestconfig.getoption("--ccm-jar")
+        if not ccm_jar:
+            pytest.skip("CCM jar not specified (use --ccm-jar option)")
+        return ccm_jar
     
     @pytest.mark.integration
     def test_analyze_coverage_integration(self, ccm_jar_path):

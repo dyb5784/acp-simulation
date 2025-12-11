@@ -53,6 +53,10 @@ def run_single_episode(
     episode_seed = config.get_episode_seed(episode_id)
     np.random.seed(episode_seed)
     
+    # Also set Python's random seed for any other random operations
+    import random
+    random.seed(episode_seed)
+    
     # Create environment
     if config.num_nodes == 50 and config.connectivity == 0.6 and config.vulnerability_distribution == 'uniform':
         # Use base environment for default parameters
@@ -236,8 +240,8 @@ def run_experiment(
     
     # Analyze results
     analysis = analyze_experiment_results(
-        acp_rewards=acp_rewards,
-        traditional_rewards=traditional_rewards,
+        acp_results=acp_rewards,
+        traditional_results=traditional_rewards,
         acp_action_counts=dict(acp_action_counts),
         traditional_action_counts=dict(traditional_action_counts),
         acp_confidence_scores=acp_confidence_scores,
@@ -334,8 +338,8 @@ def run_experiment_parallel(
     
     # Analyze results
     analysis = analyze_experiment_results(
-        acp_rewards=acp_rewards,
-        traditional_rewards=traditional_rewards,
+        acp_results=acp_rewards,
+        traditional_results=traditional_rewards,
         acp_action_counts=dict(acp_action_counts),
         traditional_action_counts=dict(traditional_action_counts),
         acp_confidence_scores=acp_confidence_scores,

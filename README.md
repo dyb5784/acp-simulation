@@ -316,32 +316,39 @@ python3 acp_parallel_power_analysis.py
 
 ## 🤖 AI-Assisted Development Integration
 
-### Claude Code Playbook Integration
-This project now includes the **Claude Code Playbook v3.0.0** for AI-assisted development:
+### Claude Code Playbook Integration (Optional)
+
+This project can be enhanced with AI-assisted development using the **Claude Code Playbook**:
 
 - **Token-efficient workflows** - 67% reduction in conversation turns
-- **Six specialized workflows** for refactoring and code improvement
-- **Modern architecture patterns** - Feature modules, Result monads, functional composition
-- **Session management protocols** - Optimized for Claude Pro token limits
+- **Specialized skills** for Python scientific computing and refactoring
+- **Modern architecture patterns** and best practices
+- **Session management protocols** optimized for Claude Pro
 
 ### Quick Start with Claude Code
-```bash
-# Initialize Claude Code session
-/clear
-claude skills refactoring qnew
 
-# Analyze codebase for improvements
-claude skills refactoring triage
-```
+1. **Clone the playbook:**
+   ```bash
+   git clone https://github.com/dyb5784/claude-code-playbook.git
+   ```
 
-### Included Files
-- `CLAUDE.md` - Project constitution and guidelines
-- `.claude/skills/refactoring/` - Complete workflow system
-  - 7 workflow files (triage, extract, modernize, qnew, qplan, qcode, catchup)
-  - 2 knowledge bases (TypeScript patterns, architecture patterns)
-  - SKILL.md - Complete skill overview
+2. **Copy templates to your project:**
+   ```bash
+   cp claude-code-playbook/templates/CLAUDE.md.template ./CLAUDE.md
+   cp claude-code-playbook/templates/.cursorrules.template ./.cursorrules
+   ```
 
-**Learn more:** See [docs/AI_ASSISTED_DEVELOPMENT.md](docs/AI_ASSISTED_DEVELOPMENT.md) for complete documentation
+3. **Customize the templates** for your project needs
+
+4. **Start using Claude Code:**
+   ```bash
+   /clear
+   claude skills refactoring qnew
+   ```
+
+**Learn more:** See [docs/CLAUDE_CODE_INTEGRATION.md](docs/CLAUDE_CODE_INTEGRATION.md) for complete documentation
+
+**Repository:** https://github.com/dyb5784/claude-code-playbook
 
 ---
 
