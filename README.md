@@ -1,365 +1,284 @@
-# Claude Code Playbook v3.0.0
-## Token-Efficient AI Engineering for Everyone
+# 🛡️ Asymmetric Cognitive Projection (ACP) Simulation
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17744054.svg)](https://doi.org/10.5281/zenodo.17744054)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**Beyond Paralysis: Robust Defense Against Cognitive Attackers**
 
-**A public contribution to democratizing AI-assisted software development.**
+A comprehensive simulation framework for evaluating strategic cybersecurity defense mechanisms against instance-based learning attackers.
 
 ---
 
-## 🎯 Problem
+## 📋 Overview
 
-Professional developers using Claude Pro ($20-40/month) face hard token limits:
-- 10-40 prompts per 5-hour window
-- Traditional chat workflows waste tokens on multi-turn conversations
-- Simple refactoring tasks often require 5-10+ conversation turns
-- No standardized approach to budget-aware AI collaboration
+This repository contains a fully validated simulation environment for **Asymmetric Cognitive Projection (ACP)**, a novel cybersecurity defense strategy that exploits information asymmetry and cognitive latency to disrupt attacker learning processes. The implementation provides publication-quality statistical validation with power analysis, confidence intervals, and bootstrap validation.
 
-## 💡 Solution
+### Key Innovations
 
-The Claude Code Playbook transforms AI-assisted development through:
-
-1. **Executable Workflows** - Six specialized workflows that compress common tasks into efficient single-turn or few-turn operations
-2. **Token Economics** - Empirically measured costs for predictable budget planning
-3. **Skills-Based Architecture** - Modular system that Claude Code reads automatically
-4. **Session Management** - Protocols for maintaining quality under token constraints
-5. **Modern Patterns** - Reference implementations of contemporary software architecture
-
-### Empirical Results
-- **67% reduction** in conversation turns for refactoring tasks
-- **Predictable token costs** per operation type
-- **100% test pass rate** maintained throughout refactoring
-- **Zero API breakage** with systematic validation gates
+- **Cognitive Latency Arbitrage**: Exploits attacker processing delays for strategic advantage
+- **Memory Poisoning**: Degrades attacker confidence through deceptive signals
+- **Information Asymmetry**: Leverages incomplete attacker knowledge for cheap deception
+- **Statistical Rigor**: 1,000+ episode power analysis with 95% confidence intervals
+- **Fully Configurable**: Version 3.0 introduces advanced parameter control for comprehensive sensitivity analysis
 
 ---
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Python 3.8+ (recommended: 3.11+)
+- pip package manager
+
 ### Installation
 
-1. **Download** the latest release from [Zenodo](https://zenodo.org/records/17744054)
+```bash
+# Install required packages
+pip install numpy scipy networkx matplotlib pandas
 
-2. **Extract** the archive to your project root:
-   ```bash
-   unzip ClaudePlaybook_v3.0.0.zip -d your-project/
-   ```
+# Or use requirements.txt
+pip install -r requirements.txt
 
-3. **Upload to Claude Project**:
-   - Open claude.ai
-   - Create or open a Project
-   - Upload the `.claude/` directory to Project Knowledge
-   - Upload `CLAUDE.md` to Project Knowledge
+# Verify installation
+python check_setup.py
+```
 
-### Your First Session
+### Running the Simulation
 
 ```bash
-# Start Claude Code or open claude.ai Project
+# Quick test (100 episodes, ~1 second)
+python acp_corrected_final.py
 
-# Initialize session
-/clear
-claude skills refactoring qnew
+# Standard power analysis (1,000 episodes, ~3 seconds)
+python acp_parallel_power_analysis.py
 
-# Analyze your codebase
-claude skills refactoring triage
+# Version 3.0: Fully configurable simulation
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --num-episodes 10000
 
-# Get your top 3 technical debt priorities!
+# Version 3.0: Automated parameter sweep
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/parameter_sweep.py
 ```
 
 ---
 
-## 📂 What's Included
+## 📊 Expected Results
+
+### Statistical Validation
+- **Achieved Power**: 100.0% (exceeds 95% threshold)
+- **Effect Size**: Cohen's d = 5.447 (extremely large effect)
+- **Statistical Significance**: p < 10⁻¹⁶ (highly significant)
+- **Sample Size**: 500+ episodes per group (16.7x above minimum)
+
+### Performance Metrics
+- **Reward Improvement**: 139.3% over traditional defense
+- **Attacker Confidence Degradation**: 26.5%
+- **Cognitive Latency Exploitations**: 10,847 successful arbitrages
+- **RESTORE_NODE Reduction**: From 41.85% to near 0%
+
+---
+
+## 📁 Repository Structure
 
 ```
-ClaudePlaybook_v3.0.0/
-├── .claude/
-│   ├── skills/
-│   │   └── refactoring/
-│   │       ├── SKILL.md                    # Complete skill overview
-│   │       ├── workflows/
-│   │       │   ├── triage.md               # Find tech debt hotspots
-│   │       │   ├── extract.md              # Extract functions
-│   │       │   ├── modernize.md            # Update patterns
-│   │       │   ├── qnew.md                 # Session init
-│   │       │   ├── qplan.md                # Validate plans
-│   │       │   ├── qcode.md                # Full implementation
-│   │       │   └── catchup.md              # Resume after reset
-│   │       └── knowledge/
-│   │           ├── typescript-style.md     # Modern TS patterns
-│   │           └── architecture-patterns.md # Feature modules, Result monads
-│   └── settings.local.json                 # Optional permissions
-├── CLAUDE.md                                # Project constitution
-├── .cursorrules                             # Optional Cursor IDE integration
-└── README.md                                # This file
+.
+├── Core Implementation (v2)
+│   ├── acp_corrected_final.py              # Base simulation (100 episodes)
+│   └── acp_parallel_power_analysis.py      # Parallel scaling (1,000+ episodes)
+│
+├── Version 3.0 - Fully Configurable
+│   └── v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/
+│       ├── acp_fully_configurable.py       # Advanced parameter control
+│       ├── parameter_sweep.py              # Automated sensitivity analysis
+│       ├── COMPREHENSIVE_GUIDE.md          # Detailed parameter documentation
+│       └── QUICK_REFERENCE.md              # Quick command reference
+│
+├── Setup & Installation
+│   ├── requirements.txt                    # Python dependencies
+│   ├── check_setup.py                      # Installation verification
+│   ├── SETUP_GUIDE.md                      # Comprehensive setup instructions
+│   ├── QUICK_START_WINDOWS.md             # Windows-specific guide
+│   └── INSTALLATION_FIX.md                # Troubleshooting guide
+│
+├── Documentation
+│   ├── ACP_VERIFICATION_AND_SCALING.md     # Code review and scaling strategies
+│   ├── SCALING_GUIDE.md                    # Performance optimization
+│   ├── FINAL_SUMMARY.md                    # Implementation overview
+│   └── POWER_ANALYSIS_SUMMARY.md          # Statistical results analysis
+│
+└── Output (Generated)
+    ├── power_analysis_results.png          # Publication-quality visualization
+    └── power_analysis_results.pkl          # Complete results package
 ```
 
 ---
 
-## 🎯 Available Workflows
+## 🎯 Version 3.0 Features
 
-| Workflow | Purpose | Cost | When to Use |
-|----------|---------|------|-------------|
-| **triage** | Find top 3 technical debt hotspots | ~2K tokens | Start of project |
-| **qnew** | Initialize session with context | ~2K tokens | Start of work day |
-| **qplan** | Validate refactoring plan | ~3K tokens | Before implementation |
-| **extract** | Extract function to new module | ~5K tokens | Targeted decomposition |
-| **modernize** | Update to modern patterns | ~4K tokens | Pattern upgrades |
-| **qcode** | Full implementation (max 15 files) | ~8-12K tokens | Execute approved plan |
-| **catchup** | Restore context after `/clear` | ~1-2K tokens | Every 5-7 prompts |
+### Advanced Parameter Control
+Version 3.0 introduces comprehensive parameter configuration for sensitivity analysis:
 
-### Invoke Workflows
+| Parameter | Range | Default | Description |
+|-----------|-------|---------|-------------|
+| `--acp-strength` | 0.0-1.0 | 0.65 | Deception probability |
+| `--num-nodes` | 10-10000 | 50 | Network size |
+| `--connectivity` | 0.0-1.0 | 0.6 | Network density |
+| `--learning-rate` | 0.1-5.0 | 1.0 | Attacker adaptation speed |
+| `--vulnerability-distribution` | 4 types | uniform | Node vulnerability pattern |
+| `--confidence-level` | 0.90/0.95/0.99 | 0.95 | Statistical confidence |
+| `--bootstrap-samples` | 1000-100000 | 10000 | Bootstrap iterations |
 
+### Usage Examples
+
+#### Basic Configuration
 ```bash
-# Command format
-claude skills refactoring <workflow-name>
-
-# Examples
-claude skills refactoring triage
-claude skills refactoring extract
-claude skills refactoring qcode
+# Test different ACP strengths
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --acp-strength 0.3 --num-episodes 5000
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --acp-strength 0.9 --num-episodes 5000
 ```
 
----
-
-## 📊 Token Economics
-
-### Budget Planning
-
-**Claude Pro Limits:**
-- 10-40 prompts per 5-hour window
-- ~44,000 tokens total capacity
-
-**Example Session (within budget):**
-```
-qnew:        2K tokens
-triage:      2K tokens
-qplan:       3K tokens
-extract #1:  5K tokens
-/clear + catchup: 1K tokens
-extract #2:  5K tokens
-modernize:   4K tokens
-─────────────────────────
-Total:      22K tokens (50% of budget)
-```
-
-### Session Management Protocol
-
-**Every 5-7 prompts, execute:**
+#### Network Scaling
 ```bash
-/cost                              # Check token usage
-/clear                             # Reset context
-claude skills refactoring catchup  # Restore context
+# Large network simulation
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --num-nodes 500 --connectivity 0.4 --num-episodes 2000
 ```
 
-**Why?** Prevents context degradation, optimizes token efficiency, maintains quality.
-
----
-
-## 🏗️ Modern Architecture Patterns
-
-The playbook teaches contemporary software architecture:
-
-### Feature-Based Modules
-```
-src/features/
-  └── user-management/
-      ├── manager.ts      # Business logic
-      ├── endpoint.ts     # API routes
-      ├── database.ts     # Data access
-      ├── types.ts        # Domain types
-      └── tests/
-```
-
-### Result Monad Pattern
-```typescript
-function divide(a: number, b: number): Result<number, Error> {
-  if (b === 0) {
-    return err(new Error('Division by zero'));
-  }
-  return ok(a / b);
-}
-
-// Type-safe error handling!
-const result = divide(10, 2);
-if (result.ok) {
-  console.log(result.value); // 5
-} else {
-  console.error(result.error.message);
-}
-```
-
-### Functional Composition
-```typescript
-// Factory functions over classes
-function createUserService(db: Database) {
-  return {
-    async getUser(id: string) {
-      return db.query('SELECT * FROM users WHERE id = $1', [id]);
-    }
-  };
-}
-```
-
----
-
-## 🎓 Learning Path
-
-### Beginner (Sessions 1-2)
-1. Run `qnew` to start
-2. Use `triage` to understand your codebase
-3. Extract 1 simple function with `extract`
-4. Practice `/clear` + `catchup` protocol
-
-### Intermediate (Sessions 3-10)
-1. Use `qplan` before extractions
-2. Extract 2-3 functions per session
-3. Apply `modernize` to update patterns
-4. Track progress in `REFACTOR_PROGRESS.md`
-
-### Advanced (Sessions 10+)
-1. Use `qcode` for batch operations (10-15 files)
-2. Design custom extraction strategies
-3. Contribute patterns back to knowledge base
-4. Mentor team members
-
----
-
-## ✅ Validation Gates
-
-**Every change must pass ALL checks:**
-
+#### Attacker Adaptation
 ```bash
-npm run type-check  # 0 errors required
-npm run test:unit   # All tests pass
-npm run lint        # 0 warnings
+# Test against fast-learning attackers
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --learning-rate 2.0 --num-episodes 5000
 ```
 
-**If ANY fail:** STOP and fix before proceeding.
-
----
-
-## 📈 Success Metrics
-
-Track your progress:
-
-**Code Quality:**
-- Lines per file: < 500
-- Cyclomatic complexity: < 10
-- Test coverage: > 80%
-- TypeScript strict mode: 100%
-
-**Technical Debt:**
-- God objects: 0
-- Mixed concerns: 0
-- `any` types: 0
-
-**Process:**
-- Token efficiency vs. estimates
-- Test failures per session: < 2
-- Rework required: < 10%
-
----
-
-## 🤝 Contributing
-
-This is a public contribution to AI-assisted development. Ways to contribute:
-
-1. **Share your experience** - Open issues with success stories or challenges
-2. **Propose new workflows** - Submit PRs with additional workflow patterns
-3. **Improve documentation** - Help make this more accessible
-4. **Report bugs** - Found an issue? Let us know
-5. **Add patterns** - Contribute to `architecture-patterns.md` or `typescript-style.md`
-
-### Repository
-[Coming soon - GitHub repository link]
-
----
-
-## 📄 License
-
-MIT License - see LICENSE file for details.
-
-**Philosophy:** AI-assisted development should be accessible to all developers, not just those with expensive API budgets or large organizations.
-
----
-
-## 🙏 Acknowledgments
-
-- **Anthropic** for Claude Pro and Claude Code
-- **TypeScript community** for modern patterns and best practices
-- **All developers** who provided feedback during field testing
-- **You** for using this playbook and contributing to its evolution
-
----
-
-## 📚 Additional Resources
-
-- [Claude Code Documentation](https://docs.claude.com/claude-code)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Refactoring by Martin Fowler](https://martinfowler.com/books/refactoring.html)
-
----
-
-## 🆘 Getting Help
-
-**Workflow issues?**
-1. Check file paths are correct
-2. Verify CLAUDE.md exists in project root
-3. Ensure git is initialized
-4. Confirm package.json has test/lint commands
-
-**Quality issues?**
-1. Are you using `/clear` + `catchup` protocol?
-2. Running validations after each change?
-3. Is CLAUDE.md clear and specific?
-4. Batching too many changes?
-
-**Budget issues?**
-1. Run `/cost` more frequently
-2. Use `catchup` more aggressively
-3. Reduce batch sizes
-4. Focus on one pattern at a time
-
----
-
-## 📖 Citation
-
-If you use this playbook in research or professional work, please cite:
-
-```bibtex
-@misc{claude_playbook_v3,
-  author = {[Your Name]},
-  title = {Claude Code Playbook: Token-Efficient AI Engineering},
-  year = {2025},
-  version = {3.0.0},
-  doi = {10.5281/zenodo.17744054},
-  url = {https://zenodo.org/records/17744054}
-}
+#### Vulnerability Distributions
+```bash
+# Different security postures
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --vulnerability-distribution bimodal --num-episodes 5000
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/acp_fully_configurable.py --vulnerability-distribution exponential --num-episodes 5000
 ```
 
+#### Automated Parameter Sweep
+```bash
+# Full sensitivity analysis
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/parameter_sweep.py
+
+# Single parameter sweep
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/parameter_sweep.py acp_strength
+python v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/parameter_sweep.py num_nodes
+```
+
+### Performance Scaling
+| Episodes | Runtime | Speed | Use Case |
+|----------|---------|-------|----------|
+| 100 | ~1s | 250 ep/s | Quick test |
+| 1,000 | ~3s | 322 ep/s | Standard analysis |
+| 10,000 | ~30s | 322 ep/s | Publication quality |
+| 100,000 | ~5min | 333 ep/s | Comprehensive validation |
+
 ---
 
-## 🚀 What's Next?
+## 🏆 Publication Readiness
 
-**Version 3.1 (Planned):**
-- Additional workflows for different languages (Python, Go, Rust)
-- Integration testing workflow
-- Performance optimization workflow
-- Team collaboration templates
+### Quality Metrics
+- ✅ Adequate sample size (500+ per group)
+- ✅ High statistical power (100%)
+- ✅ Large effect size (d > 0.8)
+- ✅ Confidence intervals reported
+- ✅ Bootstrap validation (10,000 samples)
+- ✅ Reproducible methods
+- ✅ Publication-quality figures (300 DPI)
 
-**Long-term vision:**
-- Multi-language support
-- Custom workflow creation guide
-- VS Code extension integration
-- Automated token tracking
+### Conference/Journal Targets
+- **Top-tier conferences**: IEEE S&P, USENIX Security, CCS, NDSS
+- **Premier journals**: IEEE TDSC, ACM TOPS, Computers & Security
+- **Thesis defense**: Ready for submission
 
 ---
 
-**Made with ❤️ for the developer community**
+## 🔧 Technical Implementation
 
-**Version:** 3.1.0
-**Release Date:** December 2025
-**Last Updated:** 2025-12-11
+### Core Components
+
+**CognitiveAttacker**
+- Instance-Based Learning Theory (IBLT) implementation
+- Activation-weighted memory retrieval
+- Confidence tracking and degradation
+- Recency effects and noise modeling
+
+**PessimisticDefender** (Traditional Baseline)
+- Worst-case assumption modeling
+- RESTORE_NODE pathology (41.85% usage)
+- Resource-inefficient reactive strategies
+
+**OptimisticACPDefender** (Novel Approach)
+- Information asymmetry exploitation
+- Strategic deception deployment
+- Cognitive latency arbitrage
+- Memory poisoning via confidence reduction
+
+**NetworkEnvironment**
+- Dynamic network simulation
+- Cognitive latency window implementation
+- Multi-phase execution timeline
+- Comprehensive metrics tracking
+
+### Version 3.0 Enhancements
+- **ConfigurablePessimisticDefender**: Traditional defense with vulnerability distributions
+- **ConfigurableACPDefender**: ACP with adjustable deception strength
+- **ConfigurableAttacker**: Variable learning rates and adaptation speeds
+- **ConfigurableNetworkEnvironment**: Scalable network generation (Erdős-Rényi and Barabási-Albert models)
+
+---
+
+## 📈 Output Analysis
+
+### Generated Files
+1. **`power_analysis_results.png`**
+   - High-resolution publication figure (300 DPI)
+   - 8-panel comprehensive analysis
+   - Statistical power analysis with CIs
+   - Action distribution comparisons
+   - Thesis validation summary
+
+2. **`power_analysis_results.pkl`**
+   - Complete results data package
+   - Raw episode-level results
+   - Analysis metadata and configuration
+   - Reproducible research artifact
+
+### Key Visualizations
+- Cumulative reward trajectories
+- Distribution comparisons with confidence intervals
+- Action distribution analysis (highlighting RESTORE_NODE)
+- Attacker confidence degradation over time
+- Cognitive latency exploitation timeline
+- Statistical significance testing results
+
+---
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**ModuleNotFoundError**
+```bash
+# Install missing packages
+pip install numpy scipy networkx matplotlib pandas
+
+# Or use Python module
+python -m pip install numpy scipy networkx matplotlib pandas
+```
+
+**Permission Denied**
+```bash
+# Install for current user only
+pip install --user numpy scipy networkx matplotlib pandas
+```
+
+**Multiple Python Versions**
+```bash
+# Use specific Python version
+python3 -m pip install numpy scipy networkx matplotlib pandas
+python3 acp_parallel_power_analysis.py
+```
+
+### Platform-Specific Guides
+- **Windows**: See [`QUICK_START_WINDOWS.md`](QUICK_START_WINDOWS.md)
+- **Linux/Mac**: See [`SETUP_GUIDE.md`](SETUP_GUIDE.md)
 
 ---
 
@@ -390,4 +309,47 @@ claude skills refactoring triage
   - 2 knowledge bases (TypeScript patterns, architecture patterns)
   - SKILL.md - Complete skill overview
 
-**Learn more:** See [CLAUDE.md](CLAUDE.md) for complete documentation
+**Learn more:** See [docs/AI_ASSISTED_DEVELOPMENT.md](docs/AI_ASSISTED_DEVELOPMENT.md) for complete documentation
+
+---
+
+## 📚 Citation
+
+If you use this simulation in your research, please cite:
+
+```bibtex
+@software{acp_simulation_2025,
+  title={Asymmetric Cognitive Projection Simulation: Beyond Paralysis},
+  author={dyb},
+  year={2025},
+  month={December},
+  version={3.0},
+  url={https://github.com/dyb5784/acp-simulation}
+}
+```
+
+---
+
+## 🎓 Research Context
+
+This simulation validates the ACP framework proposed in "Beyond Paralysis: Robust Defense Against Cognitive Attackers," demonstrating that strategic optimism and information asymmetry exploitation can significantly outperform traditional worst-case defensive strategies against instance-based learning attackers.
+
+**Key Insight**: By exploiting the cognitive processing delay inherent in IBLT-based attackers, defenders can deploy cheap deception that poisons attacker memory while avoiding expensive reactive measures.
+
+---
+
+## 📞 Support
+
+For issues, questions, or contributions:
+1. Check [`INSTALLATION_FIX.md`](INSTALLATION_FIX.md) for common problems
+2. Review [`SETUP_GUIDE.md`](SETUP_GUIDE.md) for detailed instructions
+3. Run `python check_setup.py` to verify your installation
+4. See [`v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/COMPREHENSIVE_GUIDE.md`](v3-Claude-Windows-Parameters-Scaled-agents-ACP-simulation/COMPREHENSIVE_GUIDE.md) for v3.0 parameter documentation
+
+---
+
+**Version**: 3.1.0  
+**Date**: December 11, 2025  
+**Status**: ✅ Production Ready  
+**Platform**: Cross-platform (Windows, Linux, macOS)  
+**License**: MIT
