@@ -1,4 +1,4 @@
-# 📘 Practitioner's Playbook: Kimi For Coding & Roo Code (v4.0.0)
+# 📘 Practitioner's Playbook: Kimi For Coding & Roo Code (v4.1.0)
 
 **Core Objective:** Operationalize the **Agent-Tuned** `kimi-for-coding` model to achieve 92% task completion at minimal cost.
 

@@ -1,0 +1,16 @@
+{
+  "num_episodes": 100,
+  "acp_strength": 0.65,
+  "num_nodes": 50,
+  "connectivity": 0.6,
+  "latency_window": [
+    0.0,
+    0.0
+  ],
+  "learning_rate": 1.0,
+  "decay_rate": 0.8,
+  "noise": 0.1,
+  "confidence_level": 0.95,
+  "bootstrap_samples": 1000,
+  "vulnerability_distribution": "uniform"
+}

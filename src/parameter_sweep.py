@@ -86,6 +86,10 @@ class ParameterSweep:
                 cmd.append(f'--confidence-level={value}')
             elif param_name == 'bootstrap_samples':
                 cmd.append(f'--bootstrap-samples={value}')
+            elif param_name == 'latency_window':
+                # Handle tuple format (min, max)
+                cmd.append(f'--latency-window-min={value[0]}')
+                cmd.append(f'--latency-window-max={value[1]}')
             
             # Add base parameters
             for key, val in config.items():
@@ -272,6 +276,7 @@ def run_sensitivity_analysis():
         'acp_strength': 0.65,
         'num_nodes': 50,
         'connectivity': 0.6,
+        'latency_window': (0.3, 0.8),
         'learning_rate': 1.0,
         'decay_rate': 0.8,
         'noise': 0.1,

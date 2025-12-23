@@ -48,7 +48,8 @@ class NetworkEnvironment:
         Tracking metrics for analysis
     """
     
-    def __init__(self, num_nodes: int = 50, connectivity: float = 0.6):
+    def __init__(self, num_nodes: int = 50, connectivity: float = 0.6,
+                 latency_window: Tuple[float, float] = (0.3, 0.8)):
         """
         Initialize network environment.
         
@@ -58,9 +59,12 @@ class NetworkEnvironment:
             Number of nodes in the network
         connectivity : float, default=0.6
             Network connectivity (0.0 to 1.0)
+        latency_window : Tuple[float, float], default=(0.3, 0.8)
+            Min and max cognitive latency for attacker processing (time units)
         """
         self.num_nodes = num_nodes
         self.connectivity = connectivity
+        self.latency_window = latency_window
         
         # Generate network
         self.network = self._generate_network()
@@ -170,7 +174,7 @@ class NetworkEnvironment:
         observation = self._get_state()
         
         # ===== PHASE 2: COGNITIVE LATENCY WINDOW (KEY!) =====
-        cognitive_latency = np.random.uniform(0.3, 0.8)
+        cognitive_latency = np.random.uniform(*self.latency_window)
         
         # ===== PHASE 3: Defender acts DURING latency =====
         # This is "latency arbitrage" - analogous to HFT front-running
@@ -515,7 +519,8 @@ class ConfigurableNetworkEnvironment(NetworkEnvironment):
     """
     
     def __init__(self, num_nodes: int = 50, connectivity: float = 0.6,
-                 vulnerability_distribution: str = 'uniform'):
+                 vulnerability_distribution: str = 'uniform',
+                 latency_window: Tuple[float, float] = (0.3, 0.8)):
         """
         Initialize configurable network environment.
         
@@ -527,10 +532,13 @@ class ConfigurableNetworkEnvironment(NetworkEnvironment):
             Network connectivity
         vulnerability_distribution : str, default='uniform'
             Vulnerability distribution type
+        latency_window : Tuple[float, float], default=(0.3, 0.8)
+            Min and max cognitive latency for attacker processing (time units)
         """
         self.num_nodes = num_nodes
         self.connectivity = connectivity
         self.vulnerability_distribution = vulnerability_distribution
+        self.latency_window = latency_window
         
         # Create network based on size
         if num_nodes <= 100:
