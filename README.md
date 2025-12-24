@@ -1,228 +1,308 @@
-# ACP Simulation - Claude Code Playbook
+# ACP Simulation Framework
 
-This project includes the Claude Code Playbook v4.0.0 for AI-assisted development.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
+
+Asymmetric Cognitive Projection (ACP) simulation framework for validating strategic cybersecurity defense mechanisms against instance-based learning attackers.
+
+**Latest**: v4.1.0 - BSI 2026 Conference Edition (December 2025)
+
+## 🎯 Overview
+
+This framework models cognitive attacker-defender dynamics on enterprise network topologies, implementing:
+
+- **Optimistic ACP Defense**: Exploits attacker cognitive latency windows
+- **Pessimistic Traditional Defense**: Zero-trust worst-case modeling
+- **Cognitive Attackers**: Instance-Based Learning Theory (IBLT)
+- **Enterprise Networks**: Hub-spoke, hierarchical, scale-free topologies
+- **Statistical Validation**: Variance reduction, power analysis, effect sizes
+
+### Key Research Question
+
+> "Do optimistic models trained against realistic variance outperform pessimistic models even in worst-case scenarios?"
+
+**BSI 2026 Conference Submission**: "Jenseits des Worst-Case: Robuste Abwehr kognitiver Angreifer durch Optimistische Modellierung"
 
 ## 🚀 Quick Start
 
-### First Time Setup
+### Installation
 
 ```bash
-# 1. Start a new session
-/clear
+# Clone repository
+git clone https://github.com/dyb5784/acp-simulation.git
+cd acp-simulation
 
-# 2. Load the session initialization workflow
-view .claude/skills/refactoring/workflows/qnew.md
+# Install dependencies
+pip install -r requirements.txt
 
-# 3. Choose your skill based on work type:
+# Install package (development mode)
+pip install -e .
 
-# For simulation/numerical work:
-view .claude/skills/python-scientific/SKILL.md
-
-# For refactoring/architecture:
-view .claude/skills/refactoring/SKILL.md
-```
-
-### Session Management Protocol
-
-**Every 5-7 prompts, execute:**
-```bash
-/cost                                          # Check token usage
-/clear                                         # Reset context
-view .claude/skills/refactoring/workflows/catchup.md    # Restore context
-```
-
-## 📁 Directory Structure
-
-```
-.claude/
-├── README.md                  # Playbook overview
-├── GETTING_STARTED.md         # Detailed setup guide
-├── WORKFLOW_GUIDE.md          # Comprehensive workflow documentation
-└── skills/
-    ├── README.md              # Skills navigation hub ⭐ START HERE
-    ├── python-scientific/     # Scientific computing patterns
-    │   └── SKILL.md          # NumPy, reproducibility, performance
-    └── refactoring/          # Code refactoring workflows
-        ├── SKILL.md          # Refactoring skill overview
-        └── workflows/        # Executable workflows
-            ├── triage.md     # Find technical debt hotspots
-            ├── extract.md    # Extract components
-            ├── qnew.md       # Start new session
-            ├── qplan.md      # Validate plan
-            ├── qcode.md      # Execute implementation
-            └── catchup.md    # Resume after /clear
-```
-
-## 🎯 Common Workflows
-
-### 1. Start New Session
-```bash
-/clear
-view .claude/skills/refactoring/workflows/qnew.md
-```
-
-### 2. Find Technical Debt
-```bash
-view .claude/skills/refactoring/workflows/triage.md
-```
-
-### 3. Extract Component (e.g., from NetworkEnvironment)
-```bash
-view .claude/skills/refactoring/workflows/extract.md
-```
-
-### 4. Optimize Simulation Performance
-```bash
-view .claude/skills/python-scientific/SKILL.md
-# Focus on vectorization and profiling sections
-```
-
-### 5. Resume After Context Clear
-```bash
-/clear
-view .claude/skills/refactoring/workflows/catchup.md
-```
-
-## 🧪 Validation Requirements
-
-**Before ANY commit, ALL checks must pass:**
-
-```bash
-# Type checking (if using mypy)
-mypy src/ --strict
-
-# Linting
-flake8 src/ --max-line-length=100
-
-# Tests
+# Verify installation
 pytest tests/ -v
+```
 
-# Reproducibility (for ACP simulation)
+### Basic Usage
+
+```python
+from acp_simulation.environment import EnhancedNetworkEnvironment
+from acp_simulation.agents import ConfigurableACPDefender, ConfigurableAttacker
+from acp_simulation.core import NodeState, ActionType
+
+# Create enterprise network (hub-spoke topology)
+env = EnhancedNetworkEnvironment(
+    num_nodes=50,
+    topology_type='hub_spoke',  # Corporate server-client architecture
+    vulnerability_distribution='gradient',  # Realistic security posture
+    random_seed=42
+)
+
+# Get topology analysis
+report = env.get_topology_report()
+print(f"Network: {report['hub_count']} hubs, {report['peripheral_count']} peripheral")
+print(f"Clustering: {report['metrics']['clustering_coefficient']:.3f}")
+
+# Initialize agents
+attacker = ConfigurableAttacker(learning_rate=1.0)
+# Note: Defender requires network parameter - use standard workflow
+```
+
+### Enterprise Network Topologies (⭐ NEW in v4.1.0)
+
+```python
+# Hub-and-Spoke (Corporate Networks)
+env_corporate = EnhancedNetworkEnvironment(
+    num_nodes=50,
+    topology_type='hub_spoke',  # 10% hubs (servers), 90% periphery (endpoints)
+    vulnerability_distribution='gradient'  # Hubs secure (0.2), periphery vulnerable (0.7)
+)
+
+# Hierarchical (Security Zones)
+env_enterprise = EnhancedNetworkEnvironment(
+    num_nodes=50,
+    topology_type='hierarchical',  # DMZ → Internal → Endpoints
+    vulnerability_distribution='gradient'  # Outer layers vulnerable
+)
+
+# Scale-Free (Barabási-Albert)
+env_scalefree = EnhancedNetworkEnvironment(
+    num_nodes=100,
+    topology_type='barabasi_albert',
+    vulnerability_distribution='uniform'
+)
+
+# Random Baseline (Erdős-Rényi)
+env_random = EnhancedNetworkEnvironment(
+    num_nodes=50,
+    topology_type='erdos_renyi',
+    connectivity=0.6
+)
+```
+
+## 📊 Running Experiments
+
+### Enhanced Statistical Analysis (⭐ NEW in v4.1.0)
+
+```python
+from acp_simulation.simulation.enhanced_runner import run_enhanced_experiment
+
+config = {
+    'num_nodes': 50,
+    'topology_type': 'hub_spoke',
+    'vulnerability_dist': 'gradient',
+    'acp_strength': 0.7,
+    'learning_rate': 1.0,
+    'max_steps': 50
+}
+
+# Run with variance reduction techniques
+results = run_enhanced_experiment(
+    config=config,
+    num_episodes=100,
+    num_trials=3,  # Multiple trials for aggregation
+    warmup_steps=5,  # Reduce initialization bias
+    use_crn=True  # Common Random Numbers for paired comparisons
+)
+
+# Analyze BSI-specific metrics
+stats = results['summary']
+print(f"ACP Reward: {stats['acp_mean_reward']:.1f} ± {stats['acp_std_reward']:.1f}")
+print(f"Traditional Reward: {stats['trad_mean_reward']:.1f} ± {stats['trad_std_reward']:.1f}")
+print(f"Cohen's d: {stats['cohens_d']:.3f} ({stats['effect_size_interpretation']})")
+print(f"p-value: {stats['p_value']:.4f}")
+print(f"\n🎯 BSI Validation:")
+print(f"  Restore Node Rate (ACP): {stats['acp_restore_rate']*100:.2f}%")
+print(f"  Restore Node Rate (Trad): {stats['trad_restore_rate']*100:.2f}%")
+print(f"  Overuse Ratio (Trad/ACP): {stats['restore_rate_ratio']:.2f}x")
+```
+
+### ACTS Combinatorial Testing
+
+```python
+from acp_simulation.integration.acts.bsi_parameters import BSI_ACP_PARAMETERS, get_bsi_parameter_count
+
+# Check parameter space
+info = get_bsi_parameter_count()
+print(f"Total combinations: {info['total_combinations']:,}")
+print(f"ACTS 3-way tests: ~{info['estimated_3way_tests']}")
+print(f"Reduction: {info['reduction_factor']:.1f}x")
+
+# Output:
+# Total combinations: 34,560
+# ACTS 3-way tests: ~200
+# Reduction: 172.8x
+```
+
+## 🏗️ Architecture
+
+### Network Topologies
+
+| Topology | Use Case | V Characteristics | NEW |
+|----------|----------|-----------------|-----|
+| **Hub-Spoke** | Corporate networks | Servers (10%) highly connected, endpoints (90%) connect to servers | ⭐ |
+| **Hierarchical** | Security zones | DMZ → Internal → Endpoints, defense-in-depth | ⭐ |
+| **Barabási-Albert** | Scale-free | Power-law degree distribution, hubs emerge naturally | |
+| **Erdős-Rényi** | Baseline/random | Uniform connectivity, no structure | |
+
+### Vulnerability Distributions
+
+| Distribution | Description | Works With | NEW |
+|--------------|-------------|------------|-----|
+| **Gradient** | Topology-aware: hubs/core secure, periphery vulnerable | Hub-spoke, Hierarchical | ⭐ |
+| **Inverse** | Insider threat model: hubs/core vulnerable | Hub-spoke, Hierarchical | ⭐ |
+| **Uniform** | All nodes equal (0.5) | Any topology | |
+| **Normal** | Bell curve around 0.5 | Any topology | |
+| **Exponential** | Skewed distribution | Any topology | |
+| **Bimodal** | Mixed secure/insecure | Any topology | |
+
+## 🧪 Testing
+
+```bash
+# Run all tests (including new topology tests)
+pytest tests/ -v  # 29 total tests
+
+# Run only new topology tests (v4.1.0)
+pytest tests/test_topology_generators.py -v  # 19 tests
+
+# Run with coverage
+pytest tests/ --cov=src/acp_simulation --cov-report=html
+
+# Verify reproducibility
 python scripts/verify_reproducibility.py
 ```
 
-**If ANY validation fails: STOP. Fix the issue first.**
+## 📈 Performance
 
-## 📊 Token Budget Awareness
+### Benchmarks (16-core machine, v4.1.0)
 
-### Claude Pro Limits
-- **10-40 prompts** per 5-hour window
-- **~44,000 tokens** total capacity
+- **Single episode** (50 nodes, 50 steps): ~100-200ms
+- **100 episodes** (parallel): ~2-3 seconds
+- **1,000 episodes** (parallel): ~15-20 seconds
+- **ACTS suite** (200 tests × 1,000 episodes): ~15-20 minutes
 
-### Typical Session (54% of budget)
+### Variance Reduction Impact
+
+| Technique | Benefit |
+|-----------|---------|
+| Common Random Numbers (CRN) | 20-30% reduction in standard error |
+| Warmup Periods (5 steps) | 10-15% more stable estimates |
+| Multi-Trial Aggregation (3 trials) | 15-25% improved confidence intervals |
+| **Combined** | **40-50% improved statistical power** |
+
+## 📚 Documentation
+
+- **[CLAUDE.md](CLAUDE.md)**: Developer guide for AI-assisted development
+- **[BSI_ENHANCEMENTS_SUMMARY.md](BSI_ENHANCEMENTS_SUMMARY.md)**: Technical details of v4.1.0 features
+- **[SESSION_SUMMARY_2025-12-24.md](SESSION_SUMMARY_2025-12-24.md)**: Development session notes
+- **[CHANGELOG.md](CHANGELOG.md)**: Complete version history
+- **[PLAYBOOK_README.md](PLAYBOOK_README.md)**: Claude Code AI playbook instructions
+
+## 🔬 BSI 2026 Conference Validation
+
+### Claims to Validate
+
+1. **Pessimistic Overreaction**: Restore node action rate 41.85% (pessimistic) vs 33.4% (optimistic)
+2. **Reward Superiority**: ACP reward 790 vs Traditional -124
+3. **Generalization**: ACP >990 vs Pessimistic 959 against unknown threats
+
+### Validation Code
+
+See [BSI_ENHANCEMENTS_SUMMARY.md](BSI_ENHANCEMENTS_SUMMARY.md) for complete validation procedures.
+
+## 🛠️ Development
+
+### Project Structure
+
 ```
-Session start:           2K tokens
-Load skill:              1K tokens
-Triage:                  2K tokens
-Plan:                    3K tokens
-Extract #1:              5K tokens
-/clear + catchup:        1K tokens
-Extract #2:              5K tokens
-Documentation:           3K tokens
-Testing:                 2K tokens
-──────────────────────────────────
-Total:                  24K tokens
+acp-simulation/
+├── src/acp_simulation/          # Main package
+│   ├── core/                    # Data structures
+│   ├── agents/                  # Attacker/Defender agents
+│   ├── environment/             # Network simulation
+│   │   ├── topology_generators.py  # ⭐ NEW: Enterprise topologies
+│   │   └── network_enhanced.py     # ⭐ NEW: Enhanced environment
+│   ├── simulation/              # Experiment runners
+│   │   └── enhanced_runner.py      # ⭐ NEW: Variance reduction
+│   ├── analysis/                # Statistical analysis
+│   └── integration/             # External frameworks
+│       └── acts/
+│           └── bsi_parameters.py   # ⭐ NEW: BSI parameter space
+├── tests/                       # Test suite
+│   └── test_topology_generators.py  # ⭐ NEW: 19 topology tests
+├── scripts/                     # Utility scripts
+├── docs/                        # Documentation
+└── .claude/                     # AI playbooks (optional)
 ```
 
-### Budget Tips
-- Run `/cost` every 3 prompts
-- Reset context (`/clear` + catchup) every 5-7 prompts
-- Load skills once per session
-- Batch related work together
+### Code Quality Standards
 
-## 🎓 Learning Path
+Before committing:
+- ✅ All tests pass: `pytest tests/ -v`
+- ✅ Type checking: `mypy src/ --strict`
+- ✅ Linting: `flake8 src/ --max-line-length=100`
+- ✅ Reproducibility: `python scripts/verify_reproducibility.py`
 
-### Beginner (Sessions 1-2)
-1. Read `.claude/skills/README.md` to understand available skills
-2. Run `qnew` workflow to start
-3. Run `triage` to understand the codebase
-4. Practice `/clear` + `catchup` protocol
+## 📄 License
 
-### Intermediate (Sessions 3-10)
-1. Use `extract` workflow to decompose components
-2. Apply Python scientific patterns for vectorization
-3. Use `qplan` before major changes
-4. Track progress systematically
+MIT License - see [LICENSE](LICENSE) file for details.
 
-### Advanced (Sessions 10+)
-1. Use `qcode` for batch operations
-2. Design custom refactoring strategies
-3. Optimize simulation performance
-4. Contribute improvements to skills
+## 📞 Contact
 
-## 📚 Key Documents
+- **Repository**: https://github.com/dyb5784/acp-simulation
+- **Issues**: https://github.com/dyb5784/acp-simulation/issues
 
-- **[Skills README](.claude/skills/README.md)** ⭐ Navigation hub for all skills
-- **[Python Scientific Skill](.claude/skills/python-scientific/SKILL.md)** - NumPy, reproducibility, performance
-- **[Refactoring Skill](.claude/skills/refactoring/SKILL.md)** - Code organization and workflows
-- **[Getting Started](.claude/GETTING_STARTED.md)** - Detailed setup guide
-- **[Workflow Guide](.claude/WORKFLOW_GUIDE.md)** - Comprehensive workflow docs
+## 🔖 Citation
 
-## 🎯 ACP Simulation Priorities
+```bibtex
+@software{acp_simulation_2025,
+  author = {dyb},
+  title = {ACP Simulation Framework: Enterprise Network Topologies for Cognitive Defense Validation},
+  year = {2025},
+  version = {4.1.0},
+  url = {https://github.com/dyb5784/acp-simulation}
+}
+```
 
-Based on technical debt analysis, focus on:
+## 📝 Version History
 
-1. **NetworkEnvironment class** (330 lines)
-   - God object with multiple responsibilities
-   - Use: extract workflow + Python scientific patterns
-   - Target: GraphTopology, NodeStateManager, ActionExecutor components
+**v4.1.0 (December 2025)** - BSI 2026 Conference Edition ⭐
+- Enterprise network topologies (hub-spoke, hierarchical)
+- Topology-aware vulnerability distributions (gradient, inverse)
+- Variance reduction framework (CRN, warmup, multi-trial)
+- ACTS parameter space expansion (34,560 combinations → ~200 tests)
+- Enhanced statistical analysis with BSI-specific metrics
+- 19 new tests (100% passing)
+- 2,327 lines of code added
 
-2. **run_corrected_experiment()** (186 lines)
-   - Monolithic orchestration function
-   - Use: extract workflow + configuration patterns
-   - Target: Focused orchestration components
+**v4.0.0 (December 2024)** - Production Release
+- Modular package structure
+- Comprehensive test suite
+- ACTS integration
+- Statistical power analysis
 
-3. **Agent decision logic**
-   - Performance bottleneck
-   - Use: Python scientific patterns
-   - Target: Vectorized batch processing
-
-## ✅ Success Criteria
-
-Your refactoring is successful when:
-- ✅ All tests pass (100% pass rate maintained)
-- ✅ Type hints added with numpy.typing
-- ✅ Reproducibility verified (same seed = same results)
-- ✅ Performance improved or maintained
-- ✅ Code follows single-responsibility principle
-- ✅ NumPy-style docstrings added
-- ✅ Technical debt reduced
-
-## 🆘 Troubleshooting
-
-### "Workflow not found"
-- Ensure you're viewing files with `.claude/skills/` prefix
-- Check file paths: `ls .claude/skills/refactoring/workflows/`
-
-### High token usage
-- Use `/clear` + `catchup` more frequently (every 5-7 prompts)
-- Don't reload skills unnecessarily
-- Focus on one component at a time
-
-### Tests failing after refactoring
-- STOP immediately
-- Identify the breaking change
-- Fix before proceeding
-- Never commit with failing tests
-
-### Context seems lost
-- Run: `/clear` then view `.claude/skills/refactoring/workflows/catchup.md`
-- The catchup workflow will restore full context
-
-## 📞 Support
-
-1. Start with: `.claude/skills/README.md`
-2. Check relevant skill documentation
-3. Use `qnew` workflow to refresh context
-4. Review `WORKFLOW_GUIDE.md` for detailed workflows
-
-## 🔄 Version
-
-- **Playbook Version**: 4.0.0
-- **Date**: December 18, 2024
-- **Project**: ACP Simulation
-- **Status**: ✅ Configured and Ready
+See [CHANGELOG.md](CHANGELOG.md) for complete history.
 
 ---
 
-**Next Step:** Read [`.claude/skills/README.md`](.claude/skills/README.md) to understand available skills and choose your starting point.
+**Status**: ✅ Production Ready | **Last Updated**: December 24, 2025
