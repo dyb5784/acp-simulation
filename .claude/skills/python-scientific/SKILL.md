@@ -4,6 +4,8 @@
 
 This skill provides best practices for scientific Python development, with emphasis on NumPy/SciPy-based simulations, reproducibility, and performance optimization for research-grade code.
 
+**Specifically optimized for:** ACP (Asymmetric Cognitive Projection) simulation and agent-based modeling
+
 ## When to Use This Skill
 
 Use this skill when working on:
@@ -639,7 +641,58 @@ python -m memory_profiler script.py
 pytest --cov=src --cov-report=html
 
 # Type checking
-mypy src/
+mypy src/ --strict
+```
+
+## ACP-Specific Patterns
+
+### Network State Vectorization
+
+**Before:**
+```python
+for node in network.nodes():
+    if network.nodes[node]['compromised']:
+        # Process compromised node
+        pass
+```
+
+**After:**
+```python
+# Store state as NumPy arrays
+compromised_mask = network_state['compromised']  # boolean array
+compromised_nodes = np.where(compromised_mask)[0]
+# Process in batch
+```
+
+### Cognitive Processing with Seeds
+
+**Before:**
+```python
+def cognitive_decision(state):
+    return np.random.choice(['attack', 'defend'])
+```
+
+**After:**
+```python
+def cognitive_decision(
+    state: dict,
+    rng: np.random.Generator
+) -> str:
+    """Make cognitive decision with explicit RNG.
+    
+    Parameters
+    ----------
+    state : dict
+        Current game state
+    rng : np.random.Generator
+        Random number generator for reproducibility
+        
+    Returns
+    -------
+    str
+        Decision ('attack' or 'defend')
+    """
+    return rng.choice(['attack', 'defend'])
 ```
 
 ## Additional Resources

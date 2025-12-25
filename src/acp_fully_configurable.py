@@ -218,11 +218,13 @@ class ConfigurableNetworkEnvironment(NetworkEnvironment):
     Network environment with configurable parameters
     """
     
-    def __init__(self, num_nodes: int = 50, connectivity: float = 0.6, 
-                 vulnerability_distribution: str = 'uniform'):
+    def __init__(self, num_nodes: int = 50, connectivity: float = 0.6,
+                 vulnerability_distribution: str = 'uniform',
+                 latency_window: Tuple[float, float] = (0.3, 0.8)):
         self.num_nodes = num_nodes
         self.connectivity = connectivity
         self.vulnerability_distribution = vulnerability_distribution
+        self.latency_window = latency_window
         
         # Create network based on size
         if num_nodes <= 100:
@@ -271,7 +273,8 @@ def run_configurable_episode(episode_id: int, use_acp: bool, config: Dict) -> Di
     env = ConfigurableNetworkEnvironment(
         num_nodes=config['num_nodes'],
         connectivity=config['connectivity'],
-        vulnerability_distribution=config['vulnerability_distribution']
+        vulnerability_distribution=config['vulnerability_distribution'],
+        latency_window=config['latency_window']
     )
     state = env.reset()
     
@@ -386,7 +389,7 @@ def run_configurable_experiment(config: Dict, verbose: bool = True) -> Tuple[Lis
     runtime = time.time() - start_time
     
     if verbose:
-        print(f"✅ Completed {num_episodes} episodes in {runtime:.2f} seconds")
+        print(f"[SUCCESS] Completed {num_episodes} episodes in {runtime:.2f} seconds")
         print(f"   Average: {runtime/num_episodes*1000:.1f} ms per episode")
         print()
     
@@ -597,6 +600,12 @@ Examples:
     parser.add_argument('--connectivity', type=float, default=0.6,
                        help='Network connectivity 0.0-1.0 (default: 0.6)')
     
+    # Latency configuration
+    parser.add_argument('--latency-window-min', type=float, default=0.3,
+                       help='Minimum cognitive latency for attacker (default: 0.3)')
+    parser.add_argument('--latency-window-max', type=float, default=0.8,
+                       help='Maximum cognitive latency for attacker (default: 0.8)')
+    
     # Statistical configuration
     parser.add_argument('--confidence-level', type=float, default=0.95,
                        help='Confidence level 0.90/0.95/0.99 (default: 0.95)')
@@ -632,6 +641,12 @@ Examples:
         parser.error("--acp-strength must be between 0.0 and 1.0")
     if not 0.0 <= args.connectivity <= 1.0:
         parser.error("--connectivity must be between 0.0 and 1.0")
+    if not 0.0 <= args.latency_window_min <= 5.0:
+        parser.error("--latency-window-min must be between 0.0 and 5.0")
+    if not 0.0 <= args.latency_window_max <= 5.0:
+        parser.error("--latency-window-max must be between 0.0 and 5.0")
+    if args.latency_window_min > args.latency_window_max:
+        parser.error("--latency-window-min must be <= --latency-window-max")
     if args.confidence_level not in [0.90, 0.95, 0.99]:
         parser.error("--confidence-level must be 0.90, 0.95, or 0.99")
     if args.num_nodes < 10:
@@ -644,6 +659,7 @@ Examples:
         'acp_strength': args.acp_strength,
         'num_nodes': args.num_nodes,
         'connectivity': args.connectivity,
+        'latency_window': (args.latency_window_min, args.latency_window_max),
         'confidence_level': args.confidence_level,
         'bootstrap_samples': args.bootstrap_samples,
         'learning_rate': args.learning_rate,
@@ -661,11 +677,9 @@ Examples:
         print()
     
     # Print header
-    print("\n" + "╔" + "=" * 78 + "╗")
-    print("║" + " " * 78 + "║")
-    print("║" + "CONFIGURABLE ACP SIMULATION - ADVANCED PARAMETERS".center(78) + "║")
-    print("║" + " " * 78 + "║")
-    print("╚" + "=" * 78 + "╝")
+    print("\n" + "=" * 80)
+    print("CONFIGURABLE ACP SIMULATION - ADVANCED PARAMETERS".center(80))
+    print("=" * 80)
     print()
     
     # Run experiment
@@ -716,7 +730,7 @@ Examples:
     with open(output_file, 'wb') as f:
         pickle.dump(results_package, f)
     
-    print(f"✅ Results saved to {output_file}")
+    print(f"[SUCCESS] Results saved to {output_file}")
     print()
     print("=" * 80)
     print("EXPERIMENT COMPLETE")

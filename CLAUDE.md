@@ -1,433 +1,235 @@
-# CLAUDE.md - ACP Simulation Development Guide
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-**ACP Simulation v3.1** - Research-grade Python simulation for Asymmetric Cognitive Projection (ACP) cybersecurity defense strategy validation. This is a scientific computing project focused on statistical validation, reproducibility, and performance optimization.
+**ACP Simulation** is a Python-based research codebase implementing Asymmetric Cognitive Projection (ACP) strategies for cybersecurity defense validation. The simulation models cognitive attacker-defender dynamics on network graphs with instance-based learning attackers and strategic defenders exploiting cognitive latency windows.
 
-**Key Technologies:**
-- Python 3.8+ (NumPy, SciPy, NetworkX, Matplotlib)
-- Multi-agent simulation with 1000+ episodes
-- Statistical power analysis with bootstrap validation
-- Parallel processing for scalability
+**Version**: 4.0.0
+**Python**: 3.8+
+**Core Dependencies**: numpy, scipy, networkx, matplotlib
 
-## Budget Constraints & Session Management
+## Development Commands
 
-### Token Budget
-- **Limit**: ~44,000 tokens per session (Claude Pro)
-- **Target**: 10-40 prompts per 5-hour session
-- **Strategy**: Use compact, focused prompts; avoid verbose responses
-
-### Session Management Protocol
-1. **Check cost every 3 prompts**: `/cost` to monitor usage
-2. **Clear context every 5-7 prompts**: `/clear` then `/catchup` with project summary
-3. **Use skills proactively**: Reference `.claude/skills/` for best practices
-
-### Cost-Effective Practices
-- ✅ Read skills before asking questions
-- ✅ Use compact code reviews (focus on key issues)
-- ✅ Request specific file sections, not entire files
-- ❌ Avoid repeated explanations of concepts
-- ❌ Don't request verbose documentation in responses
-
-## Development Standards
-
-### Validation Requirements
-
-**Before ANY commit, ALL of the following must pass:**
-
+### Testing
 ```bash
-# 1. Type checking
-mypy src/ --strict
-
-# 2. Linting
-flake8 src/ --max-line-length=100
-
-# 3. Tests
+# Run all tests
 pytest tests/ -v
 
-# 4. Reproducibility check
+# Run specific test markers
+pytest tests/ -m unit
+pytest tests/ -m integration
+pytest tests/ -m "not slow"
+
+# Run with coverage
+pytest tests/ --cov=src/acp_simulation --cov-report=html
+```
+
+### Linting and Type Checking
+```bash
+# Format code
+black src/ tests/ --line-length=100
+isort src/ tests/ --profile black --line-length=100
+
+# Lint
+flake8 src/ --max-line-length=100 --extend-ignore=E203,W503
+
+# Type check
+mypy src/ --strict --ignore-missing-imports
+```
+
+### Reproducibility Validation
+```bash
+# Critical for ACP research: verify deterministic simulation behavior
 python scripts/verify_reproducibility.py
 ```
 
-**Commit only if ALL FOUR pass with no errors.**
-
-### Python Best Practices
-
-#### 1. Vectorization (Critical for Performance)
-```python
-# ❌ BAD - Loop over arrays
-for i in range(len(agents)):
-    rewards[i] = compute_reward(agents[i])
-
-# ✅ GOOD - Vectorized operation
-rewards = compute_rewards_vectorized(agent_states)
-```
-
-#### 2. Type Hints (Required for All Functions)
-```python
-from numpy.typing import NDArray
-import numpy as np
-
-def process_states(
-    states: NDArray[np.float64],
-    threshold: float
-) -> NDArray[np.bool_]:
-    """Process agent states with threshold."""
-    return states > threshold
-```
-
-#### 3. Configuration Management
-```python
-from dataclasses import dataclass, asdict
-import json
-
-@dataclass(frozen=True)
-class SimulationConfig:
-    num_episodes: int = 1000
-    num_agents: int = 50
-    random_seed: int = 42
-    
-    def save(self, path: str) -> None:
-        with open(path, 'w') as f:
-            json.dump(asdict(self), f, indent=2)
-```
-
-#### 4. Reproducibility (Non-Negotiable)
-```python
-# Every simulation function MUST accept seed parameter
-def run_simulation(config: SimulationConfig, seed: int = 42) -> dict:
-    rng = np.random.default_rng(seed)
-    # Use rng for all random operations
-    noise = rng.standard_normal(100)
-    return results
-```
-
-### Code Organization Principles
-
-1. **Separate concerns**: Keep simulation logic, analysis, and visualization in different modules
-2. **Immutable configs**: Use `frozen=True` on dataclasses
-3. **Pure functions**: Minimize side effects, maximize testability
-4. **Vectorized operations**: Use NumPy operations instead of Python loops
-5. **Explicit dependencies**: Import specific functions, not entire modules
-
-## Claude Skills Integration
-
-### Available Skills
-
-#### 1. Python Scientific Computing (`.claude/skills/python-scientific/`)
-**When to use:** Any work on simulation code, numerical analysis, or statistical validation
-
-**Key patterns:**
-- Vectorization over loops
-- Reproducible random seeds
-- Type hints with `numpy.typing`
-- Configuration with dataclasses
-- NumPy-style docstrings
-
-**Usage:**
+### Pre-commit Hooks
 ```bash
-# Start session reading the skill
-/clear
-view .claude/skills/python-scientific/SKILL.md
+# Install pre-commit (first time only)
+pip install pre-commit
+pre-commit install
+
+# Run all checks manually
+pre-commit run --all-files
 ```
 
-#### 2. General Refactoring (`.claude/skills/refactoring/`)
-**When to use:** Architectural changes, code organization, modernization
-
-**Workflows available:**
-- `triage` - Identify issues in codebase
-- `extract` - Extract reusable components
-- `modernize` - Update to modern patterns
-- `qnew`, `qplan`, `qcode` - Quick development workflows
-
-**Usage:**
+### Running Simulations
 ```bash
-# Quick triage
-claude skills refactoring triage
+# Primary CLI entry point (configurable)
+python src/acp_fully_configurable.py --episodes 100 --seed 42
 
-# Start new feature
-claude skills refactoring qnew
+# Legacy reference implementation
+python src/acp_corrected_final.py
+
+# Parameter sweeps
+python src/parameter_sweep.py
+
+# Statistical power analysis
+python acp_parallel_power_analysis.py
 ```
 
-### Skill Selection Guide
+## Architecture
 
-| Task | Primary Skill | Secondary Skill |
-|------|---------------|-----------------|
-| Optimize simulation loop | Python Scientific | - |
-| Fix numerical stability | Python Scientific | - |
-| Add configuration option | Python Scientific | - |
-| Restructure modules | General Refactoring | - |
-| Add new analysis | Python Scientific | General Refactoring |
-| Performance profiling | Python Scientific | - |
-| Type hint addition | Python Scientific | - |
-
-## Research-Specific Guidelines
-
-### Statistical Validation
-- **Always** report confidence intervals (not just means)
-- **Always** include effect sizes (Cohen's d)
-- **Always** verify statistical power (target: ≥80%)
-- **Always** use bootstrap validation for non-parametric tests
-
-### Reproducibility Requirements
-1. **Seed everything**: NumPy, random, any stochastic process
-2. **Save configurations**: JSON files with all parameters
-3. **Log versions**: Python, NumPy, SciPy, custom code
-4. **Include timestamps**: ISO format for all runs
-5. **Track git commits**: Include commit hash in results
-
-### Performance Optimization Workflow
-1. **Profile first**: Use cProfile to identify bottlenecks
-2. **Measure baseline**: Record current performance
-3. **Optimize**: Apply vectorization, algorithmic improvements
-4. **Verify correctness**: Ensure results unchanged (use fixed seed)
-5. **Measure improvement**: Quantify speedup
-6. **Document**: Note optimization in commit message
-
-## Commit Standards
-
-### Commit Message Format
+### Package Structure
 ```
-<type>(<scope>): <short description>
-
-<detailed description>
-
-Performance: <metrics if applicable>
-Reproducibility: <verification if applicable>
-Tests: <test coverage if applicable>
+src/acp_simulation/
+├── core/              # Core data structures and types
+│   ├── enums.py       # NodeState, ActionType enumerations
+│   ├── dataclasses.py # Instance, SimulationConfig
+│   └── types.py       # AgentState, RewardArray, EpisodeResult
+├── agents/            # Agent implementations
+│   ├── base.py        # BaseAttacker, BaseDefender abstract classes
+│   ├── attacker.py    # CognitiveAttacker (IBLT learning)
+│   └── defender.py    # Pessimistic, ACP defender strategies
+├── environment/       # Simulation environment
+│   └── network.py     # NetworkEnvironment (⚠️ 330 lines, refactor target)
+├── simulation/        # Experiment execution
+│   └── runner.py      # Episode/experiment runners, parallel support
+├── analysis/          # Post-simulation analysis
+│   ├── statistics.py  # Statistical validation (Cohen's d, p-values)
+│   └── visualization.py
+└── integration/       # External framework integration
+    ├── acts/          # ACTS combinatorial testing
+    └── ccm/           # CCM integration
 ```
 
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `perf`: Performance improvement
-- `refactor`: Code restructure without behavior change
-- `test`: Add or update tests
-- `docs`: Documentation changes
+### Key Design Patterns
 
-**Example:**
-```
-perf(simulation): vectorize agent decision computation
+**1. Cognitive Latency Window**
+The core ACP mechanism: defenders act during the attacker's "processing window" (cognitive delay). This is implemented in `NetworkEnvironment` via multi-phase execution:
+- Phase 1: Attacker selects target → processing delay begins
+- Phase 2: Defender observes and acts during delay
+- Phase 3: Attacker action executes on final state
 
-Replaced loop-based decision logic with vectorized NumPy operations.
-Reduces per-episode time from 3.2s to 0.8s (4x speedup).
+**2. Seed-Based Reproducibility**
+All randomness flows through explicit `random_seed` parameters using `numpy.random.default_rng()`. Global random state (`np.random.rand()`) is **forbidden**.
 
-Performance:
-  - Before: 322 episodes/second
-  - After: 1288 episodes/second
-  
-Reproducibility: Verified with seed=42, results identical
-Tests: Added test_vectorized_decisions, all tests pass
-```
+**3. Vectorization Over Loops**
+Performance-critical agent decision logic should use NumPy vector operations instead of Python loops.
 
-## Development Workflows
+## Critical Operational Constraints
 
-### Starting a Session
-```bash
-# 1. Check current project state
-/cost  # Check token budget
-view CLAUDE.md  # Review guidelines
+### 1. Statistical Rigor
+All performance claims must report **Cohen's d** (effect size) and **p-values** (statistical significance). Do not merge code that degrades statistical power below 80%.
 
-# 2. Load relevant skill
-view .claude/skills/python-scientific/SKILL.md
+### 2. Reproducibility
+- All simulations accept explicit `random_seed` parameters
+- Use `numpy.random.default_rng(seed)` for RNG creation
+- Never use global random state (`np.random.rand()`, `random.random()`)
+- Verify reproducibility with: `python scripts/verify_reproducibility.py`
 
-# 3. Start work
-<work on task>
+### 3. Type Safety
+- Use type hints with `numpy.typing` for array types
+- Run `mypy src/ --strict` before commits
+- Use NumPy-style docstrings for all functions
 
-# 4. Monitor usage
-/cost  # After ~3 prompts
-```
+### 4. Testing Requirements
+**Before ANY commit**, ensure:
+- `pytest tests/ -v` passes (100%)
+- `mypy src/ --strict` passes
+- `flake8 src/ --max-line-length=100` passes
+- `python scripts/verify_reproducibility.py` passes
 
-### Adding a Feature
-```bash
-# 1. Read skill
-view .claude/skills/python-scientific/SKILL.md
+If **any** validation fails: **STOP** → Fix → Then proceed.
 
-# 2. Implement with patterns
-- Use type hints
-- Add docstrings (NumPy style)
-- Include seed parameter
-- Vectorize operations
+## Known Technical Debt
 
-# 3. Test
-pytest tests/test_new_feature.py
+### Priority 1: NetworkEnvironment Class (network.py:20)
+- **Issue**: 330-line god object with multiple responsibilities
+- **Contains**: Graph topology, state management, action execution, reward calculation, metrics tracking
+- **Target refactoring**: Extract GraphTopology, NodeStateManager, ActionExecutor components
+- **Skills**: Use `.claude/skills/refactoring/workflows/extract.md` + `.claude/skills/python-scientific/SKILL.md`
 
-# 4. Verify reproducibility
-python scripts/verify_reproducibility.py
+### Priority 2: run_corrected_experiment() (src/acp_corrected_final.py)
+- **Issue**: 186-line monolithic orchestration function
+- **Target**: Focused orchestration components with clear configuration patterns
 
-# 5. Commit
-git add <files>
-git commit -m "feat(module): add <feature>"
-```
+### Priority 3: Agent Decision Logic
+- **Issue**: Performance bottleneck in instance-based learning
+- **Target**: Vectorized batch processing using NumPy operations
 
-### Optimizing Performance
-```bash
-# 1. Profile
-python -m cProfile -o profile.stats src/simulation.py
+## Special Files and Entry Points
 
-# 2. Analyze
-view .claude/skills/python-scientific/SKILL.md
-# Focus on "Performance Profiling" section
+### Main Entry Points
+- `src/acp_fully_configurable.py` - **Primary CLI** for running simulations (actively maintained)
+- `src/acp_corrected_final.py` - Reference implementation (stable, do not modify)
+- `acp_parallel_power_analysis.py` - Statistical power analysis engine (root level)
 
-# 3. Identify bottlenecks
-python -c "import pstats; p = pstats.Stats('profile.stats'); p.sort_stats('cumulative'); p.print_stats(20)"
+### Configuration Files
+- `.clinerules` - Instructions for Cline AI assistant (read for context)
+- `CONTEXT.md` - Operational context and project state
+- `.pre-commit-config.yaml` - Comprehensive pre-commit hooks including reproducibility checks
 
-# 4. Optimize (vectorization, algorithmic improvement)
+### Claude Code Playbook
+This project uses Claude Code Playbook v4.0.0:
+- `.claude/skills/README.md` - Navigation hub for AI-assisted development workflows
+- `.claude/skills/python-scientific/SKILL.md` - NumPy patterns, vectorization, profiling
+- `.claude/skills/refactoring/SKILL.md` - Code organization workflows
+- `.claude/skills/refactoring/workflows/` - Executable workflows (triage, extract, qnew, catchup)
 
-# 5. Verify correctness
-python tests/test_correctness.py --seed 42
+**Session Management Protocol**: Every 5-7 prompts run `/cost`, `/clear`, then `view .claude/skills/refactoring/workflows/catchup.md`
 
-# 6. Measure improvement
-python benchmark.py
-```
+## Development Workflow
+
+### Starting a New Feature
+1. Read `CONTEXT.md` for current project state
+2. Identify affected modules in `src/acp_simulation/`
+3. Write tests in `tests/` following existing patterns
+4. Implement changes maintaining reproducibility constraints
+5. Run full validation suite (pytest, mypy, flake8, reproducibility)
+6. Use pre-commit hooks or run `pre-commit run --all-files`
+
+### Refactoring Large Components
+1. Use `.claude/skills/refactoring/workflows/triage.md` to analyze technical debt
+2. Use `.claude/skills/refactoring/workflows/extract.md` for component extraction
+3. Maintain 100% test pass rate throughout (never break tests)
+4. Verify reproducibility after each change
+5. Add type hints and NumPy-style docstrings
 
 ### Running Experiments
-```bash
-# 1. Create config
-python scripts/create_config.py \
-  --num-episodes 10000 \
-  --num-agents 100 \
-  --seed 42
+- Prefer `acp_fully_configurable.py` for new experiments (supports CLI configuration)
+- Use `parameter_sweep.py` for sensitivity analysis
+- All experiment results must be reproducible with same seed
+- Report Cohen's d and p-values for performance comparisons
 
-# 2. Run simulation
-python src/main.py --config configs/experiment_001.json
-
-# 3. Verify reproducibility
-python src/main.py --config configs/experiment_001.json
-# Results should be identical
-
-# 4. Analyze
-python scripts/analyze_results.py outputs/experiment_001/
-```
-
-## Quick Reference
-
-### Essential Commands
-```bash
-# Development
-pytest tests/ -v                    # Run tests
-mypy src/ --strict                  # Type check
-flake8 src/ --max-line-length=100  # Lint
-
-# Profiling
-python -m cProfile -o profile.stats script.py
-kernprof -l -v script.py           # Line profiling
-
-# Reproducibility
-python scripts/verify_reproducibility.py
-
-# Session Management
-/cost                              # Check token usage
-/clear                             # Clear context
-/catchup                           # Resume with summary
-```
-
-### File Structure
-```
-.
-├── .claude/
-│   └── skills/
-│       ├── python-scientific/    # Scientific Python patterns
-│       └── refactoring/          # Architecture patterns
-├── src/                          # Source code
-├── tests/                        # Test suite
-├── scripts/                      # Utility scripts
-├── configs/                      # Experiment configurations
-├── outputs/                      # Results (git-ignored)
-└── CLAUDE.md                     # This file
-```
-
-### Model Selection
-- **Sonnet 4.5**: Default for all development (best performance/cost)
-- **Opus 4**: Only for complex architectural decisions (use sparingly)
-
-## Common Patterns
-
-### Pattern: Reproducible Experiment
+### Using Enterprise Network Topologies (NEW -  Conference)
 ```python
-from dataclasses import dataclass
-import numpy as np
-from pathlib import Path
+from src.acp_simulation.environment.network_enhanced import EnhancedNetworkEnvironment
 
-@dataclass(frozen=True)
-class ExperimentConfig:
-    num_episodes: int = 1000
-    random_seed: int = 42
-    
-    def save(self, path: Path) -> None:
-        import json
-        from dataclasses import asdict
-        with open(path, 'w') as f:
-            json.dump(asdict(self), f, indent=2)
+# Hub-and-spoke (corporate server-client architecture)
+env_hub = EnhancedNetworkEnvironment(
+    num_nodes=50,
+    topology_type='hub_spoke',
+    vulnerability_distribution='gradient'  # Hubs secure, periphery vulnerable
+)
 
-def run_experiment(config: ExperimentConfig) -> dict:
-    """Run experiment with full reproducibility."""
-    # Save config
-    output_dir = Path('outputs') / f'exp_{config.random_seed}'
-    output_dir.mkdir(parents=True, exist_ok=True)
-    config.save(output_dir / 'config.json')
-    
-    # Log versions
-    import sys, scipy
-    versions = {
-        'python': sys.version,
-        'numpy': np.__version__,
-        'scipy': scipy.__version__
-    }
-    
-    # Run with seed
-    rng = np.random.default_rng(config.random_seed)
-    # ... experiment code ...
-    
-    return {
-        'results': results,
-        'config': config,
-        'versions': versions
-    }
+# Hierarchical (security zones: DMZ, internal, endpoints)
+env_hier = EnhancedNetworkEnvironment(
+    num_nodes=50,
+    topology_type='hierarchical',
+    vulnerability_distribution='gradient'  # Outer layers vulnerable
+)
+
+# Get topology analysis
+report = env_hub.get_topology_report()
+print(f"Clustering: {report['metrics']['clustering_coefficient']:.3f}")
+print(f"Hubs: {report['hub_count']}, Peripheral: {report['peripheral_count']}")
 ```
 
-### Pattern: Vectorized Agent Updates
-```python
-def update_agents_vectorized(
-    states: NDArray[np.float64],
-    actions: NDArray[np.int64],
-    rewards: NDArray[np.float64],
-    learning_rate: float
-) -> NDArray[np.float64]:
-    """Update all agent states in one vectorized operation."""
-    # Instead of: for i in range(len(states)): ...
-    return states + learning_rate * rewards[:, np.newaxis]
-```
+## Important Notes
 
-## Thesis Defense Preparation
-
-### Quality Checklist
-- [ ] All experiments reproducible with fixed seeds
-- [ ] Statistical power ≥80% for all claims
-- [ ] Confidence intervals reported for all estimates
-- [ ] Effect sizes (Cohen's d) reported
-- [ ] Version information logged
-- [ ] Configuration files saved
-- [ ] Publication-quality figures (300 DPI)
-- [ ] Code passes all validation checks
-
-### Key Metrics to Report
-1. **Performance**: Episodes per second, scaling factor
-2. **Statistical**: p-values, confidence intervals, effect sizes, power
-3. **Reproducibility**: Seed, versions, git commit
-4. **Validation**: All tests pass, type checking clean
-
-## Contact & Support
-
-For questions or issues:
-1. Check `.claude/skills/python-scientific/SKILL.md`
-2. Review this file (CLAUDE.md)
-3. Use `/cost` to check if context refresh needed
-4. Use `/clear` + `/catchup` if approaching token limit
-
----
-
-**Version**: 3.1.0  
-**Last Updated**: 2025-12-11  
-**Model**: Claude Sonnet 4.5  
-**Focus**: Research-grade Python scientific computing
+- **Windows Development**: Project includes PowerShell scripts (`PUSH_FROM_WINDOWS.ps1`, `commit-playbook.ps1`) for Windows Git workflows
+- **Network Topologies** (Updated Dec 2025):
+  - **Erdős-Rényi**: Random baseline (legacy default)
+  - **Barabási-Albert**: Scale-free networks
+  - **Hub-and-Spoke**: Corporate server-client architectures (NEW - Dec 2025)
+  - **Hierarchical**: Security zones - DMZ/internal/endpoints (NEW - Dec 2025)
+  - Use `src/acp_simulation/environment/topology_generators.py` for custom topologies
+- **ACTS Integration**: Combinatorial testing in `src/acp_simulation/integration/acts/`
+  - Enhanced parameter space: `conference_parameters.py` includes topology types
+  - 34,560 exhaustive combinations → ~200 tests (172.8x reduction)
+- ** Conference Validation**: Implementations support the 2026  Kongress abstract on optimistic cognitive modeling (Dec 2025)
+- **Legacy Files**: Files in root `src/` (non-package) are legacy; prefer package structure under `src/acp_simulation/`
+- **Documentation**: Extensive planning docs exist (ACTS_INTEGRATION_PLAN.md, REFACTORING_PLAN.md) - consult before major changes

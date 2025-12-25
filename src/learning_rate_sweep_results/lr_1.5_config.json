@@ -1,0 +1,12 @@
+{
+  "acp_strength": 0.65,
+  "num_nodes": 50,
+  "connectivity": 0.6,
+  "learning_rate": 1.5,
+  "decay_rate": 0.8,
+  "noise": 0.1,
+  "confidence_level": 0.95,
+  "bootstrap_samples": 10000,
+  "vulnerability_distribution": "uniform",
+  "num_episodes": 1000
+}

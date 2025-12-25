@@ -1,389 +1,650 @@
-# Skill: Code Refactoring
-> "The art of refactoring is leaving the codebase cleaner than you found it."
+# Python Scientific Computing Skill
 
 ## Overview
-This skill provides a comprehensive suite of workflows for surgical and safe modernization of legacy codebases. It works with your project's `CLAUDE.md` constitution, emphasizing iterative changes, budget awareness, and test-driven validation.
 
-**Primary Goal:** Transform monolithic, tightly-coupled code into modular, maintainable, well-tested components following modern architectural patterns.
+This skill provides best practices for scientific Python development, with emphasis on NumPy/SciPy-based simulations, reproducibility, and performance optimization for research-grade code.
 
-**Pro Subscription Awareness:** All workflows are designed to work within 10-40 prompts per 5-hour window. Use `/cost` every 3 prompts to track token burn.
+## When to Use This Skill
 
----
+Use this skill when working on:
+- Scientific simulations (agent-based models, network simulations, statistical analysis)
+- NumPy/SciPy-based computational code
+- Research code requiring reproducibility
+- Performance-critical Python applications
+- Code generating statistical results or figures for publication
 
-## 📂 Skill Structure
+## Core Principles
 
-```
-.claude/skills/refactoring/
-├── SKILL.md              # This file - overview and router
-├── workflows/            # Executable task prompts
-│   ├── triage.md         # Find technical debt hotspots
-│   ├── extract.md        # Extract code into modules
-│   ├── modernize.md      # Update to modern patterns
-│   ├── catchup.md        # Resume after context reset
-│   ├── qnew.md           # Start new session
-│   ├── qplan.md          # Validate refactoring plan
-│   └── qcode.md          # Full implementation with verification
-└── knowledge/            # Reference documentation
-    ├── typescript-style.md    # TypeScript patterns and style
-    └── architecture-patterns.md   # Modern architecture patterns
-```
+### 1. Vectorization Over Loops
 
----
-
-## 🎯 Available Workflows
-
-Run any workflow with: `claude skills refactoring <workflow-name>`
-
-| Workflow | Purpose | Token Cost | When to Use |
-|----------|---------|------------|-------------|
-| **triage** | Find top 3 technical debt hotspots | ~2K | Start of refactoring project |
-| **extract** | Extract code block to new module | ~5K | Targeted function decomposition |
-| **modernize** | Update syntax and patterns | ~4K | Post-extraction cleanup |
-| **catchup** | Resume after `/clear` | ~1-2K | Every 5-7 prompts |
-| **qnew** | Fresh session initialization | ~2K | Start of work session |
-| **qplan** | Validate refactoring plan | ~3K | Before implementation |
-| **qcode** | Full implementation cycle | ~8-12K | Execute approved plan |
-
-### Workflow Details
-
-**triage** - Codebase Analysis
-- Scans TypeScript files for complexity, LOC, dependencies
-- Calculates technical debt scores
-- Identifies top 3 refactoring priorities
-- Provides effort estimates
-
-**extract** - Function Extraction
-- Analyzes code block for dependencies
-- Creates new module with proper types
-- Updates original file with imports
-- Adds unit tests
-- Validates with type-check/tests/lint
-
-**modernize** - Pattern Modernization
-- Converts `.then()` to `async/await`
-- Adds Result<T,E> error handling
-- Replaces classes with functions
-- Improves type safety (removes `any`)
-- Adds JSDoc documentation
-
-**catchup** - Context Restoration
-- Reads git diff and recent commits
-- Summarizes changed files
-- Reads REFACTOR_PROGRESS.md
-- Infers next steps
-- Restores work context
-
-**qnew** - Session Initialization
-- Reads CLAUDE.md and project structure
-- Confirms understanding of constraints
-- Checks for in-progress work
-- Prompts for session goal
-
-**qplan** - Plan Validation
-- Checks alignment with modern patterns
-- Searches for similar implementations
-- Assesses minimalism and testability
-- Identifies risks
-- Provides go/no-go verdict
-
-**qcode** - Full Implementation
-- Executes approved plan file-by-file
-- Validates after each file
-- Tracks progress in REFACTOR_PROGRESS.md
-- Generates UX test scenarios
-- Commits incrementally
-
----
-
-## 🔄 Refactoring Process (5-Step Cycle)
-
-**1. Triage** → `claude skills refactoring triage`
-- Identify top 3 debt hotspots
-- Pick target file
-
-**2. Plan** → `claude skills refactoring qplan`
-- Design refactoring approach
-- Validate against patterns
-- Get approval
-
-**3. Extract** → `claude skills refactoring extract`
-- Break down code systematically
-- One function at a time
-
-**4. Modernize** → `claude skills refactoring modernize`
-- Update patterns in extracted code
-- Add documentation
-
-**5. Reset** → `/clear` then `claude skills refactoring catchup`
-- Continue with next target
-
-**⚠️ Session Reset Protocol:** Execute `/clear` after every 5-7 prompts to avoid context degradation. Token budget is limited—resetting early saves tokens and maintains quality.
-
----
-
-## 🧠 Knowledge Base
-
-The `knowledge/` directory contains reference documentation that workflows automatically use:
-
-**typescript-style.md**
-- Async/await over promises
-- Result<T,E> error handling
-- Functional composition patterns
-- Type safety guidelines
-- Documentation standards
-
-**architecture-patterns.md**
-- Feature-based module structure
-- Manager/Endpoint/Database layers
-- Result monad implementation
-- Dependency injection patterns
-- Migration strategies
-
-**How Workflows Use Knowledge:**
-Workflows automatically reference these files when making decisions about code structure and patterns. You don't need to explicitly tell Claude to read them—they're part of the skill's context.
-
----
-
-## 💡 Field-Tested Best Practices
-
-### Session Management
-- **Never** skip `/clear + catchup` protocol
-- **Always** run `/cost` every 3 prompts
-- **Stop** if TypeScript errors appear—fix before continuing
-- **Batch** changes into 10-15 file increments max
-- **Document** progress in `REFACTOR_PROGRESS.md`
-
-### Workflow Selection
-- Use **triage** once per project/sprint
-- Use **qnew** at session start
-- Use **qplan** before major changes
-- Use **extract** for surgical extractions
-- Use **modernize** for pattern updates
-- Use **qcode** only after plan approval
-- Use **catchup** after every `/clear`
-
-### Budget Optimization
-- Triage: Run once, save results
-- Extract: 1-2 functions per session
-- Modernize: 1-2 files per session
-- qcode: Max 15 files per invocation
-- catchup: Cheap insurance—use liberally
-
-### Quality Gates
-Every change must pass:
-1. `npm run test:unit` → All tests pass
-2. `npm run type-check` → No TypeScript errors
-3. `npm run lint` → No linting errors
-
-If ANY fail: STOP and fix before proceeding.
-
----
-
-## ⚠️ Common Pitfalls to Avoid
-
-**Pitfall:** Trying to refactor too much at once
-**Solution:** Stick to 1-2 functions per extract session
-
-**Pitfall:** Not validating after each file
-**Solution:** Run tests/type-check after EVERY modification
-
-**Pitfall:** Forgetting to commit incrementally
-**Solution:** Commit every 2-4 files, don't wait until end
-
-**Pitfall:** Ignoring the `/clear + catchup` protocol
-**Solution:** Set a timer, reset every 5-7 prompts religiously
-
-**Pitfall:** Not tracking progress
-**Solution:** Maintain REFACTOR_PROGRESS.md for complex refactorings
-
-**Pitfall:** Skipping the qplan validation
-**Solution:** Always validate plans before expensive qcode execution
-
----
-
-## 📊 Budget Management
-
-### Token Budget Guidelines
-
-**Claude Pro Subscription:**
-- 10-40 prompts per 5-hour window
-- ~1,100 tokens average per prompt
-- Total: ~44,000 tokens per window
-
-**Workflow Costs:**
-- triage: 2K tokens (run once)
-- qnew: 2K tokens (per session)
-- qplan: 3K tokens (per plan)
-- extract: 5K tokens (per function)
-- modernize: 4K tokens (per file)
-- qcode: 8-12K tokens (per batch)
-- catchup: 1-2K tokens (per reset)
-
-**Example Budget Allocation:**
-```
-Session 1 (within 5-hour window):
-- qnew: 2K
-- triage: 2K
-- qplan: 3K
-- extract #1: 5K
-- /clear + catchup: 1K
-- extract #2: 5K
-- /cost check
-- modernize: 4K
-Total: ~22K tokens (50% of budget)
+**Bad:**
+```python
+def calculate_rewards(states: list) -> list:
+    rewards = []
+    for state in states:
+        reward = state['value'] * state['multiplier']
+        rewards.append(reward)
+    return rewards
 ```
 
-### When to Stop and Reset
+**Good:**
+```python
+def calculate_rewards(values: np.ndarray, multipliers: np.ndarray) -> np.ndarray:
+    """Calculate rewards using vectorized operations.
+    
+    Parameters
+    ----------
+    values : np.ndarray
+        Array of state values
+    multipliers : np.ndarray
+        Array of multipliers
+        
+    Returns
+    -------
+    np.ndarray
+        Computed rewards
+    """
+    return values * multipliers
+```
 
-**Immediate stop if:**
-- Tests fail unexpectedly
-- TypeScript strict mode errors
-- Token usage > 30K in session
-- Confusion about next steps
+### 2. Explicit Random Seeds for Reproducibility
 
-**Planned resets:**
-- After every 5-7 prompts
-- Before starting new major task
-- When switching between files
-- After completing logical unit
+**Bad:**
+```python
+def run_simulation():
+    noise = np.random.randn(100)
+    return noise.mean()
+```
 
----
+**Good:**
+```python
+def run_simulation(seed: int = 42) -> float:
+    """Run simulation with reproducible randomness.
+    
+    Parameters
+    ----------
+    seed : int, default=42
+        Random seed for reproducibility
+        
+    Returns
+    -------
+    float
+        Mean of noise samples
+    """
+    rng = np.random.default_rng(seed)
+    noise = rng.standard_normal(100)
+    return float(noise.mean())
+```
 
-## 🎓 Learning Curve
+### 3. Type Hints with numpy.typing
 
-**Beginner** (First 2 sessions):
-1. Start with qnew
-2. Run triage to understand codebase
-3. Pick the easiest target (smallest file)
-4. Use extract for just 1 function
-5. Practice /clear + catchup
-6. Get comfortable with validation checks
+**Bad:**
+```python
+def process_data(data, threshold):
+    return data[data > threshold]
+```
 
-**Intermediate** (Sessions 3-10):
-1. Use qplan before extractions
-2. Extract 2-3 functions per session
-3. Add modernize to your workflow
-4. Maintain REFACTOR_PROGRESS.md
-5. Commit incrementally
+**Good:**
+```python
+from typing import Union
+import numpy as np
+from numpy.typing import NDArray
 
-**Advanced** (Sessions 10+):
-1. Use qcode for batch operations
-2. Refactor 10-15 files per session
-3. Design custom extraction strategies
-4. Contribute patterns to knowledge base
-5. Mentor others on the team
+def process_data(
+    data: NDArray[np.float64],
+    threshold: float
+) -> NDArray[np.float64]:
+    """Filter data above threshold.
+    
+    Parameters
+    ----------
+    data : NDArray[np.float64]
+        Input data array
+    threshold : float
+        Minimum value to retain
+        
+    Returns
+    -------
+    NDArray[np.float64]
+        Filtered data
+    """
+    return data[data > threshold]
+```
 
----
+### 4. Configuration Management with Dataclasses
 
-## 🚀 Quick Start Guide
+**Bad:**
+```python
+def run_experiment(num_agents=100, learning_rate=0.1, epochs=1000):
+    # Configuration scattered across function parameters
+    pass
+```
 
-**Your First Refactoring Session:**
+**Good:**
+```python
+from dataclasses import dataclass, asdict
+import json
+from pathlib import Path
+
+@dataclass(frozen=True)
+class SimulationConfig:
+    """Configuration for ACP simulation.
+    
+    Attributes
+    ----------
+    num_agents : int
+        Number of agents in simulation
+    learning_rate : float
+        Attacker learning rate
+    num_epochs : int
+        Number of simulation epochs
+    random_seed : int
+        Seed for reproducibility
+    """
+    num_agents: int = 100
+    learning_rate: float = 0.1
+    num_epochs: int = 1000
+    random_seed: int = 42
+    
+    def save(self, path: Path) -> None:
+        """Save configuration to JSON file."""
+        with open(path, 'w') as f:
+            json.dump(asdict(self), f, indent=2)
+    
+    @classmethod
+    def load(cls, path: Path) -> 'SimulationConfig':
+        """Load configuration from JSON file."""
+        with open(path, 'r') as f:
+            return cls(**json.load(f))
+
+def run_experiment(config: SimulationConfig) -> dict:
+    """Run experiment with given configuration."""
+    # Save config for reproducibility
+    config.save(Path('outputs/experiment_config.json'))
+    
+    # Run experiment
+    rng = np.random.default_rng(config.random_seed)
+    # ... simulation code ...
+    
+    return results
+```
+
+### 5. Parallel Processing Patterns
+
+**Bad:**
+```python
+def run_episodes(n: int):
+    results = []
+    for i in range(n):
+        result = run_single_episode(i)
+        results.append(result)
+    return results
+```
+
+**Good:**
+```python
+from multiprocessing import Pool, cpu_count
+from functools import partial
+
+def run_single_episode(episode_id: int, config: SimulationConfig) -> dict:
+    """Run single episode with unique seed."""
+    # Use episode_id to create unique but reproducible seed
+    episode_seed = config.random_seed + episode_id
+    rng = np.random.default_rng(episode_seed)
+    # ... simulation code ...
+    return result
+
+def run_episodes_parallel(
+    num_episodes: int,
+    config: SimulationConfig,
+    num_workers: int = None
+) -> list[dict]:
+    """Run episodes in parallel using multiprocessing.
+    
+    Parameters
+    ----------
+    num_episodes : int
+        Number of episodes to run
+    config : SimulationConfig
+        Simulation configuration
+    num_workers : int, optional
+        Number of parallel workers (default: cpu_count())
+        
+    Returns
+    -------
+    list[dict]
+        Results from all episodes
+    """
+    if num_workers is None:
+        num_workers = cpu_count()
+    
+    run_func = partial(run_single_episode, config=config)
+    
+    with Pool(num_workers) as pool:
+        results = pool.map(run_func, range(num_episodes))
+    
+    return results
+```
+
+### 6. Testing Numerical Code
+
+**Bad:**
+```python
+def test_reward_calculation():
+    result = calculate_reward(1.0, 2.0)
+    assert result == 2.0  # Exact equality can fail due to floating point
+```
+
+**Good:**
+```python
+import pytest
+import numpy as np
+from numpy.testing import assert_allclose, assert_array_equal
+
+def test_reward_calculation():
+    """Test reward calculation with floating point tolerance."""
+    result = calculate_reward(1.0, 2.0)
+    expected = 2.0
+    assert_allclose(result, expected, rtol=1e-7)
+
+def test_reward_vectorized():
+    """Test vectorized reward calculation."""
+    values = np.array([1.0, 2.0, 3.0])
+    multipliers = np.array([2.0, 3.0, 4.0])
+    expected = np.array([2.0, 6.0, 12.0])
+    
+    result = calculate_rewards(values, multipliers)
+    assert_array_equal(result, expected)
+
+def test_reward_reproducibility():
+    """Test that results are reproducible with same seed."""
+    config = SimulationConfig(random_seed=42)
+    result1 = run_experiment(config)
+    result2 = run_experiment(config)
+    
+    assert_allclose(result1['rewards'], result2['rewards'])
+```
+
+### 7. Performance Profiling
+
+**Profile before optimizing:**
+
+```python
+import cProfile
+import pstats
+from pstats import SortKey
+
+def profile_simulation():
+    """Profile simulation to identify bottlenecks."""
+    profiler = cProfile.Profile()
+    profiler.enable()
+    
+    # Run code to profile
+    config = SimulationConfig(num_epochs=1000)
+    results = run_experiment(config)
+    
+    profiler.disable()
+    
+    # Print stats
+    stats = pstats.Stats(profiler)
+    stats.sort_stats(SortKey.CUMULATIVE)
+    stats.print_stats(20)  # Top 20 functions
+    
+    return results
+
+# Or use line_profiler for line-by-line analysis:
+# @profile  # Uncomment when using kernprof
+def expensive_function():
+    """Function to profile line-by-line."""
+    # ... code ...
+    pass
+
+# Run with: kernprof -l -v script.py
+```
+
+### 8. Memory-Efficient Array Operations
+
+**Bad:**
+```python
+def process_large_dataset(data: np.ndarray) -> np.ndarray:
+    # Creates many intermediate arrays
+    step1 = data * 2
+    step2 = step1 + 5
+    step3 = step2 / 3
+    return step3
+```
+
+**Good:**
+```python
+def process_large_dataset(data: np.ndarray) -> np.ndarray:
+    """Process data in-place to minimize memory usage.
+    
+    Parameters
+    ----------
+    data : np.ndarray
+        Input data (will be modified in-place)
+        
+    Returns
+    -------
+    np.ndarray
+        Processed data
+    """
+    # Single expression minimizes temporaries
+    return (data * 2 + 5) / 3
+
+def process_large_dataset_batched(
+    data: np.ndarray,
+    batch_size: int = 10000
+) -> np.ndarray:
+    """Process large dataset in batches to control memory.
+    
+    Parameters
+    ----------
+    data : np.ndarray
+        Input data
+    batch_size : int
+        Number of elements per batch
+        
+    Returns
+    -------
+    np.ndarray
+        Processed data
+    """
+    n = len(data)
+    result = np.empty_like(data)
+    
+    for i in range(0, n, batch_size):
+        end = min(i + batch_size, n)
+        result[i:end] = (data[i:end] * 2 + 5) / 3
+    
+    return result
+```
+
+## NumPy-Style Docstrings
+
+Always use NumPy-style docstrings for scientific code:
+
+```python
+def compute_statistics(
+    data: NDArray[np.float64],
+    confidence_level: float = 0.95
+) -> dict[str, float]:
+    """Compute descriptive statistics with confidence intervals.
+    
+    Parameters
+    ----------
+    data : NDArray[np.float64]
+        Input data array
+    confidence_level : float, default=0.95
+        Confidence level for intervals (0 < confidence_level < 1)
+        
+    Returns
+    -------
+    dict[str, float]
+        Dictionary containing:
+        - 'mean': Sample mean
+        - 'std': Sample standard deviation
+        - 'ci_lower': Lower confidence bound
+        - 'ci_upper': Upper confidence bound
+        
+    Raises
+    ------
+    ValueError
+        If confidence_level not in (0, 1)
+        
+    Examples
+    --------
+    >>> data = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+    >>> stats = compute_statistics(data)
+    >>> print(f"Mean: {stats['mean']:.2f}")
+    Mean: 3.00
+    
+    Notes
+    -----
+    Confidence intervals computed using t-distribution for small samples.
+    
+    References
+    ----------
+    .. [1] Student. "The probable error of a mean." Biometrika (1908).
+    """
+    if not 0 < confidence_level < 1:
+        raise ValueError("confidence_level must be in (0, 1)")
+    
+    from scipy import stats as sp_stats
+    
+    mean = np.mean(data)
+    std = np.std(data, ddof=1)
+    n = len(data)
+    
+    # Compute confidence interval
+    t_value = sp_stats.t.ppf((1 + confidence_level) / 2, n - 1)
+    margin = t_value * std / np.sqrt(n)
+    
+    return {
+        'mean': float(mean),
+        'std': float(std),
+        'ci_lower': float(mean - margin),
+        'ci_upper': float(mean + margin)
+    }
+```
+
+## Reproducibility Checklist
+
+Every research script should include:
+
+1. **Explicit seeds everywhere**
+   ```python
+   RANDOM_SEED = 42
+   rng = np.random.default_rng(RANDOM_SEED)
+   ```
+
+2. **Version logging**
+   ```python
+   import sys
+   import numpy as np
+   import scipy
+   
+   print(f"Python: {sys.version}")
+   print(f"NumPy: {np.__version__}")
+   print(f"SciPy: {scipy.__version__}")
+   ```
+
+3. **Configuration saving**
+   ```python
+   config.save(Path('outputs/config.json'))
+   ```
+
+4. **Timestamp logging**
+   ```python
+   from datetime import datetime
+   
+   timestamp = datetime.now().isoformat()
+   results['timestamp'] = timestamp
+   ```
+
+5. **Git commit hash** (if available)
+   ```python
+   import subprocess
+   
+   try:
+       git_hash = subprocess.check_output(
+           ['git', 'rev-parse', 'HEAD']
+       ).decode('ascii').strip()
+       results['git_commit'] = git_hash
+   except:
+       results['git_commit'] = 'unknown'
+   ```
+
+## Common Refactoring Patterns for Research Code
+
+### Pattern 1: Extract Magic Numbers
+
+**Before:**
+```python
+def update_confidence(confidence, success):
+    if success:
+        return min(1.0, confidence * 1.05)
+    else:
+        return max(0.0, confidence * 0.95)
+```
+
+**After:**
+```python
+CONFIDENCE_INCREASE_FACTOR = 1.05
+CONFIDENCE_DECREASE_FACTOR = 0.95
+MIN_CONFIDENCE = 0.0
+MAX_CONFIDENCE = 1.0
+
+def update_confidence(confidence: float, success: bool) -> float:
+    """Update confidence based on outcome.
+    
+    Parameters
+    ----------
+    confidence : float
+        Current confidence level [0, 1]
+    success : bool
+        Whether action was successful
+        
+    Returns
+    -------
+    float
+        Updated confidence level [0, 1]
+    """
+    if success:
+        return min(MAX_CONFIDENCE, confidence * CONFIDENCE_INCREASE_FACTOR)
+    else:
+        return max(MIN_CONFIDENCE, confidence * CONFIDENCE_DECREASE_FACTOR)
+```
+
+### Pattern 2: Vectorize Loops
+
+**Before:**
+```python
+def apply_decay(values: np.ndarray, decay_rate: float) -> np.ndarray:
+    result = np.zeros_like(values)
+    for i in range(len(values)):
+        result[i] = values[i] * (1 - decay_rate)
+    return result
+```
+
+**After:**
+```python
+def apply_decay(values: np.ndarray, decay_rate: float) -> np.ndarray:
+    """Apply exponential decay to values.
+    
+    Parameters
+    ----------
+    values : np.ndarray
+        Input values
+    decay_rate : float
+        Decay rate in [0, 1]
+        
+    Returns
+    -------
+    np.ndarray
+        Decayed values
+    """
+    return values * (1 - decay_rate)
+```
+
+### Pattern 3: Replace Dicts with Dataclasses
+
+**Before:**
+```python
+def create_agent(agent_id, learning_rate=0.1, memory_size=100):
+    return {
+        'id': agent_id,
+        'learning_rate': learning_rate,
+        'memory_size': memory_size,
+        'memory': []
+    }
+```
+
+**After:**
+```python
+from dataclasses import dataclass, field
+
+@dataclass
+class Agent:
+    """Agent with learning capabilities.
+    
+    Attributes
+    ----------
+    agent_id : int
+        Unique agent identifier
+    learning_rate : float
+        Learning rate for updates
+    memory_size : int
+        Maximum memory capacity
+    memory : list
+        Agent memory (initialized empty)
+    """
+    agent_id: int
+    learning_rate: float = 0.1
+    memory_size: int = 100
+    memory: list = field(default_factory=list)
+    
+    def add_to_memory(self, experience: dict) -> None:
+        """Add experience to memory, removing oldest if full."""
+        self.memory.append(experience)
+        if len(self.memory) > self.memory_size:
+            self.memory.pop(0)
+```
+
+## Integration with ACP Simulation
+
+For the ACP simulation specifically, apply these patterns:
+
+1. **Configuration Management**
+   - Create `SimulationConfig` dataclass
+   - Save config before each run
+   - Load config for reproducibility
+
+2. **Vectorization Opportunities**
+   - Batch process agent decisions
+   - Vectorize network operations
+   - Use NumPy for state updates
+
+3. **Reproducibility**
+   - Set seed at simulation start
+   - Use episode-specific seeds
+   - Log all configuration
+
+4. **Performance**
+   - Profile episode execution
+   - Vectorize bottlenecks
+   - Use multiprocessing for independent episodes
+
+5. **Testing**
+   - Test with fixed seeds
+   - Verify statistical properties
+   - Test edge cases (single agent, large networks)
+
+## Quick Reference Commands
 
 ```bash
-# 1. Start session
-/clear
-claude skills refactoring qnew
+# Profile simulation
+python -m cProfile -o profile.stats script.py
+python -c "import pstats; p = pstats.Stats('profile.stats'); p.sort_stats('cumulative'); p.print_stats(20)"
 
-# 2. Identify targets
-claude skills refactoring triage
+# Line-by-line profiling
+pip install line_profiler
+kernprof -l -v script.py
 
-# 3. Plan approach (for top priority file)
-claude skills refactoring qplan
+# Memory profiling
+pip install memory_profiler
+python -m memory_profiler script.py
 
-# 4. Extract first function
-claude skills refactoring extract
+# Run tests with coverage
+pytest --cov=src --cov-report=html
 
-# 5. Check budget
-/cost
-
-# 6. Reset context (if > 5 prompts)
-/clear
-claude skills refactoring catchup
-
-# 7. Continue with next function or modernize
+# Type checking
+mypy src/
 ```
 
----
+## Additional Resources
 
-## 📈 Success Metrics
-
-Track these to measure refactoring progress:
-
-**Code Quality:**
-- Lines of code per file (target: <500)
-- Cyclomatic complexity (target: <10)
-- Test coverage (target: >80%)
-- TypeScript strict mode compliance (target: 100%)
-
-**Technical Debt:**
-- God object count (target: 0)
-- Files with mixed concerns (target: 0)
-- `any` type usage (target: 0)
-- TODOs/FIXMEs (target: all tracked)
-
-**Process:**
-- Token efficiency (actual vs. estimated)
-- Time to complete extraction (track and improve)
-- Test failures per session (target: <2)
-- Rework required (target: <10%)
-
----
-
-## 🤝 Team Collaboration
-
-**For Team Leads:**
-- Share CLAUDE.md across the team
-- Standardize on workflows
-- Review progress files in standups
-- Track token budget usage
-- Celebrate successful extractions
-
-**For Individual Contributors:**
-- Follow the workflow order
-- Document in REFACTOR_PROGRESS.md
-- Write descriptive commit messages
-- Share learnings in retrospectives
-- Update knowledge base with new patterns
-
----
-
-## 📚 Additional Resources
-
-**In This Skill:**
-- [knowledge/typescript-style.md](knowledge/typescript-style.md) - TypeScript patterns
-- [knowledge/architecture-patterns.md](knowledge/architecture-patterns.md) - Modern architecture patterns
-- [workflows/](workflows/) - All executable workflows
-
-**External:**
-- Claude Code Documentation: https://docs.claude.com/claude-code
-- Refactoring Book: Martin Fowler's "Refactoring"
-- TypeScript Handbook: https://www.typescriptlang.org/docs/
-
----
-
-## 🆘 Getting Help
-
-**If workflows aren't working:**
-1. Check file paths are correct
-2. Verify CLAUDE.md exists in project root
-3. Ensure git is initialized
-4. Confirm package.json has test/lint commands
-
-**If results are poor quality:**
-1. Are you using /clear + catchup protocol?
-2. Are you running validations after each change?
-3. Is your CLAUDE.md clear and specific?
-4. Are you batching too many changes?
-
-**If hitting budget limits:**
-1. Run /cost more frequently
-2. Use catchup more aggressively
-3. Reduce batch sizes
-4. Focus on one pattern at a time
-
----
-
-**Last Updated:** 2025-12-01
-**Version:** 3.0.0
-**License:** MIT
-**Author:** Public contribution to AI-assisted development
+- NumPy User Guide: https://numpy.org/doc/stable/user/index.html
+- SciPy Lecture Notes: https://scipy-lectures.org/
+- Python Scientific Lecture Series: https://github.com/jrjohansson/scientific-python-lectures
+- Best Practices for Scientific Computing: https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001745

@@ -1,0 +1,10 @@
+# 🛑 CRITICAL INSTRUCTION SET 🛑
+1. **NO ACTION WITHOUT CONTEXT:** You are BLOCKED from writing code until you have read `CONTEXT.md`.
+2. **VERIFY FIRST:** Your first tool call MUST be `read_file("CONTEXT.md")`.
+3. **18-STEP LIMIT:** If a task exceeds 18 tool calls, STOP and ask for a sub-task breakdown.
+4. **NO RAW DUMPS:** Output *Specifications* or *Diffs* only.
+
+
+## 🔄 The "Boomerang" Handoff
+* **Orchestrator:** Expect a "Boomerang" return (Summary + Test Result).
+* **Code Node:** Return results immediately. Do not hold context open.

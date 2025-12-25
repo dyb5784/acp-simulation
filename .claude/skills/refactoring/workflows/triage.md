@@ -149,7 +149,7 @@ Create the final report:
 ```markdown
 ### Codebase Triage Report
 
-**🎯 Top 3 Refactoring Priorities:**
+**ðŸŽ¯ Top 3 Refactoring Priorities:**
 
 1. **File:** `{file1.ts}`
    - **Debt Score:** {score}/200
@@ -179,13 +179,13 @@ Create the final report:
      - {issue 1}
      - {issue 2}
 
-**📈 Overall Codebase Health:**
+**ðŸ“ˆ Overall Codebase Health:**
 - Total files analyzed: {X}
 - Average debt score: {Y}
 - Files with high debt (>80): {Z}
 - Recommended focus areas: {list}
 
-**📈 Next Recommended Action:**
+**ðŸ“ˆ Next Recommended Action:**
 Focus on #{ranking} priority: `{filename}`
 
 Suggested approach:
@@ -250,11 +250,11 @@ For the #1 priority file, provide specific recommendations:
 ## Success Criteria
 
 Triage is successful when:
-- ✅ All .ts files analyzed
-- ✅ Debt scores calculated for each file
-- ✅ Top 3 priorities identified with specific issues
-- ✅ Next actions recommended
-- ✅ Effort estimates provided
+- âœ… All .ts files analyzed
+- âœ… Debt scores calculated for each file
+- âœ… Top 3 priorities identified with specific issues
+- âœ… Next actions recommended
+- âœ… Effort estimates provided
 
 ---
 

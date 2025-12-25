@@ -67,11 +67,11 @@ Verify the test/lint/build commands:
 
 ```
 From package.json scripts:
-- npm run test:unit → Run unit tests
-- npm run type-check → TypeScript validation
-- npm run lint → Linting
-- npm run dev → Development server
-- npm run build → Production build
+- npm run test:unit â†’ Run unit tests
+- npm run type-check â†’ TypeScript validation
+- npm run lint â†’ Linting
+- npm run dev â†’ Development server
+- npm run build â†’ Production build
 ```
 
 **Note:** If package.json is missing or commands differ from CLAUDE.md, report this discrepancy.
@@ -146,7 +146,7 @@ git log --oneline -5
 Prompt the user:
 
 ```
-✅ Context loaded and understood!
+âœ… Context loaded and understood!
 
 I'm ready to help with refactoring. What would you like to work on today?
 
@@ -187,9 +187,9 @@ What's your goal for this session?
 ## Success Criteria
 
 Session initialization is successful when:
-- ✅ CLAUDE.md understood (or absence noted)
-- ✅ Project type identified
-- ✅ Test/lint commands known
-- ✅ Architectural goals clear
-- ✅ Budget constraints understood
-- ✅ User prompted for goal
+- âœ… CLAUDE.md understood (or absence noted)
+- âœ… Project type identified
+- âœ… Test/lint commands known
+- âœ… Architectural goals clear
+- âœ… Budget constraints understood
+- âœ… User prompted for goal

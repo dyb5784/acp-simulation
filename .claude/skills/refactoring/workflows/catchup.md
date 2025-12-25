@@ -15,7 +15,7 @@ Use this workflow when:
 - Your session was interrupted
 - You need to refresh understanding of recent changes
 
-**⚠️ IMPORTANT:** Always run `/clear` + `catchup` every 5-7 prompts to maintain optimal performance within Claude Pro budget limits.
+**âš ï¸ IMPORTANT:** Always run `/clear` + `catchup` every 5-7 prompts to maintain optimal performance within Claude Pro budget limits.
 
 ## Step 1: Check Git Status
 
@@ -210,7 +210,7 @@ Based on the progress and patterns, the logical next steps appear to be:
 Prompt the user:
 
 ```
-✅ Context restored!
+âœ… Context restored!
 
 I've caught up on your refactoring work. Here's what I understand:
 
@@ -245,10 +245,10 @@ Let me know!
 ## Success Criteria
 
 Catchup is successful when:
-- ✅ Git status understood
-- ✅ Recent commits analyzed
-- ✅ Modified files read and summarized
-- ✅ Progress file read (if exists)
-- ✅ Next steps inferred
-- ✅ User prompted for direction
-- ✅ Context fully restored
+- âœ… Git status understood
+- âœ… Recent commits analyzed
+- âœ… Modified files read and summarized
+- âœ… Progress file read (if exists)
+- âœ… Next steps inferred
+- âœ… User prompted for direction
+- âœ… Context fully restored
